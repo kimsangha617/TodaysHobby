@@ -1,10 +1,8 @@
 package dto;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 public class ProductDto {
 
@@ -15,13 +13,27 @@ public class ProductDto {
   @Builder
   public static class Request {
 
-    private String name;
+    private String koreanName;
+    private String englishName;
     private String description;
     private List<ProductItemDto.Request> productItemList;
 
   }
 
   public static class Response {
+
+  }
+
+  @Getter
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor
+  @Builder
+  public static class ProductInfoResponse {
+    private Long id;
+    private String koreanName;
+    private String englishName;
+    private String description;
+
 
   }
 

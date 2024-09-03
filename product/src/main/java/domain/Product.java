@@ -1,28 +1,19 @@
 package domain;
 
 import dto.ProductDto;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Audited
@@ -30,26 +21,43 @@ import org.hibernate.envers.Audited;
 @Entity
 public class Product extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private Long sellerId;
-  private String name;
-  private String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long sellerId;
+    private String koreanName;
+    private String englishName;
+    private String description;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "product_id")
-  private List<ProductItem> productItemList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private List<ProductItem> productItemList = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private ProductCategory productCategory;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    private String originImagePath;
+    private String thumbnailImagePath;
 
 
-  public static Product of(Long sellerId, ProductDto.Request productRequestDto) {
-    return Product.builder()
-        .sellerId(sellerId)
-        .name(productRequestDto.getName())
-        .description(productRequestDto.getDescription())
-        .productItemList(productRequestDto.getProductItemList().stream()
-            .map(productItem -> ProductItem.of(sellerId, productItem))
-            .collect(Collectors.toList()))
-        .build();
-  }
+    public static Product of(Long sellerId, ProductDto.Request productRequestDto) {
+        return Product.builder()
+                .sellerId(sellerId)
+                .koreanName(productRequestDto.getKoreanName())
+                .englishName(productRequestDto.getEnglishName())
+                .description(productRequestDto.getDescription())
+                .productItemList(productRequestDto.getProductItemList().stream()
+                        .map(productItem -> ProductItem.of(sellerId, productItem))
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    public Product toProductResponseInfo() {
+        return null;
+    }
 }
