@@ -1,4 +1,4 @@
-package controller;
+package controller.product;
 
 public class ProductController {
 

@@ -19,6 +19,9 @@ public class ProductDto {
     private String description;
     private List<ProductItemDto.Request> productItemList;
 
+    boolean isValid() {
+      return StringUitils.isNotBlank(name) && StringUitils.isNotBlank(description);
+    }
   }
 
   public static class Response {
