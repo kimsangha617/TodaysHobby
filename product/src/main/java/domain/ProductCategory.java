@@ -7,7 +7,9 @@ import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,8 +27,7 @@ public class ProductCategory {
 
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "product_id")
-    private List<Product> productList = new ArrayList<>();
+    @OneToMany(mappedBy = "productCategory")
+    private Set<Product> productList = new HashSet<>();
 
 }

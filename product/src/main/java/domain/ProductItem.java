@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import type.ProductSize;
+
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
@@ -35,9 +37,11 @@ public class ProductItem extends BaseEntity {
   @Audited
   private Integer price;
 
-  private Integer stockCount;
+  private Integer stockQuantity;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  private ProductSize productSize;
+
+  @ManyToOne
   @JoinColumn(name = "product_id")
   private Product product;
 
@@ -46,7 +50,7 @@ public class ProductItem extends BaseEntity {
         .sellerId(sellerId)
         .name(productRequestDto.getName())
         .price(productRequestDto.getPrice())
-        .stockCount(productRequestDto.getStockCount())
+        .stockQuantity(productRequestDto.getStockQuantity())
         .build();
   }
 

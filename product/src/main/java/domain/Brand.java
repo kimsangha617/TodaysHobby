@@ -1,8 +1,14 @@
 package domain;
 
-import dto.BrandDto.BrandInfo;
+import dto.BrandDto.BrandInfoResponse;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
@@ -28,15 +34,18 @@ public class Brand extends BaseEntity{
     @Column(unique = false)
     private String thumbnailImagePath;
 
+    @OneToMany(mappedBy = "brand")
+    private Set<Product> productList = new HashSet<>();
+
 //    @OneToMany
 //    private List<Product> productList = new ArrayList<>();
 
-    public BrandInfo toBrandInfo() {
-        return BrandInfo.builder()
-                .id(this.id)
-                .koreanName(this.koreanName)
-                .englishName(this.englishName)
-                .thumbnailImagePath(this.thumbnailImagePath)
+    public BrandInfoResponse toBrandInfoResponse() {
+        return BrandInfoResponse.builder()
+                .id(this.getId())
+                .koreanName(this.getKoreanName())
+                .englishName(this.getEnglishName())
+                .thumbnailImagePath(this.getThumbnailImagePath())
                 .build();
     }
 

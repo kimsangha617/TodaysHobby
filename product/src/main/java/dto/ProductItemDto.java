@@ -16,7 +16,8 @@ public class ProductItemDto {
     private Long productId;
     private String name;
     private Integer price;
-    private Integer stockCount;
+    private Integer stockQuantity;
+    private ProductSize productSize;
   }
 
 }

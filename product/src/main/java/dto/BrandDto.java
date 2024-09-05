@@ -10,7 +10,7 @@ public class BrandDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @AllArgsConstructor
     @Builder
-    public static class BrandInfo {
+    public static class BrandInfoResponse {
         private Long id;
         private String koreanName;
         private String englishName;
@@ -18,13 +18,15 @@ public class BrandDto {
 
         public Brand toEntity() {
             return Brand.builder()
-                    .id(this.id)
-                    .koreanName(this.koreanName)
-                    .englishName(this.englishName)
-                    .thumbnailImagePath(this.thumbnailImagePath)
+                    .id(this.getId())
+                    .koreanName(this.getKoreanName())
+                    .englishName(this.getEnglishName())
+                    .thumbnailImagePath(this.getThumbnailImagePath())
                     .build();
         }
 
 
     }
+
+    
 }

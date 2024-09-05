@@ -2,6 +2,7 @@ package dto;
 
 import java.util.List;
 
+import dto.BrandDto.BrandInfoResponse;
 import lombok.*;
 
 public class ProductDto {
@@ -11,7 +12,7 @@ public class ProductDto {
   @NoArgsConstructor
   @AllArgsConstructor
   @Builder
-  public static class Request {
+  public static class SaveRequest {
 
     private String koreanName;
     private String englishName;
@@ -33,6 +34,10 @@ public class ProductDto {
     private String koreanName;
     private String englishName;
     private String description;
+//    private BrandDto brandDto; brandDto 의 값이 들어가야함 엔티티값이아니라
+    private BrandInfoResponse brandInfoResponse;
+    private String thumbnailImagePath;
+
 
 
   }

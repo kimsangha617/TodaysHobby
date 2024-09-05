@@ -1,6 +1,7 @@
 package domain;
 
 import dto.ProductDto;
+import dto.ProductDto.ProductInfoResponse;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -25,27 +26,26 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long sellerId;
+    // @Audited(withModifiedFlag = true, modifiedColumnName = "korean_name_changed")
     private String koreanName;
+    // @Audited(withModifiedFlag = true, modifiedColumnName = "english_name_changed")
     private String englishName;
+    // @Audited(withModifiedFlag = true, modifiedColumnName = "description_changed")
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductItem> productItemList = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @ManyToOne
     private ProductCategory productCategory;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "brand_id")
+    @ManyToOne
     private Brand brand;
 
-    private String originImagePath;
     private String thumbnailImagePath;
 
 
-    public static Product of(Long sellerId, ProductDto.Request productRequestDto) {
+    public static Product of(Long sellerId, ProductDto.SaveRequest productRequestDto) {
         return Product.builder()
                 .sellerId(sellerId)
                 .koreanName(productRequestDto.getKoreanName())
@@ -57,7 +57,14 @@ public class Product extends BaseEntity {
                 .build();
     }
 
-    public Product toProductResponseInfo() {
-        return null;
+    public ProductInfoResponse toProductResponseInfo() {
+        return ProductInfoResponse.builder()
+                .id(this.getId())
+                .englishName(this.getEnglishName())
+                .koreanName(this.getKoreanName())
+                .description(this.getDescription())
+                .thumbnailImagePath(this.getThumbnailImagePath())
+                .brandInfoResponse(this.getBrand().toBrandInfoResponse())
+                .build();
     }
 }
