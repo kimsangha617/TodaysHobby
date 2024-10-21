@@ -19,8 +19,9 @@ public class ProductDto {
     private String description;
     private List<ProductItemDto.Request> productItemList;
 
-    boolean isValid() {
-      return StringUitils.isNotBlank(name) && StringUitils.isNotBlank(description);
+    public boolean isValid() {
+//      return StringUitils.isNotBlank(name) && StringUitils.isNotBlank(description);
+      return false;
     }
   }
 
@@ -40,8 +41,6 @@ public class ProductDto {
 //    private BrandDto brandDto; brandDto 의 값이 들어가야함 엔티티값이아니라
     private BrandInfoResponse brandInfoResponse;
     private String thumbnailImagePath;
-
-
 
   }
 

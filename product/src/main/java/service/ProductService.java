@@ -16,14 +16,15 @@ public class ProductService {
 
   @Transactional
   public Product createProduct(SaveRequest requestDto, Long sellerId) {
-    if (productRepository.getReferenceById(requestDto.get))
+//    if (productRepository.getReferenceById(requestDto.get()))
 
-  public Product addProduct(ProductDto.Request requestDto, Long sellerId) {
-    // Request Validation 처리가 필수
 
     // public 에 대한 방어 처리라고 보면 되겠다
-    if (requestDto == null) {
-      throw new IllegalArgumentException("requestDto is null");
+    {
+      // Request Validation 처리가 필수
+      if (requestDto == null) {
+        throw new IllegalArgumentException("requestDto is null");
+      }
     }
 
     if (!requestDto.isValid()) {
