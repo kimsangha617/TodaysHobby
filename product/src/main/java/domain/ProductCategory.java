@@ -27,6 +27,7 @@ public class ProductCategory {
 
     private String name;
 
+    @Builder.Default
     @OneToMany(mappedBy = "productCategory")
     private Set<ProductItem> productItemList = new HashSet<>();
 

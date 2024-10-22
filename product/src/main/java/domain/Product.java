@@ -33,6 +33,7 @@ public class Product extends BaseEntity {
     // @Audited(withModifiedFlag = true, modifiedColumnName = "description_changed")
     private String description;
 
+    @Builder.Default
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductItem> productItemList = new ArrayList<>();
 
