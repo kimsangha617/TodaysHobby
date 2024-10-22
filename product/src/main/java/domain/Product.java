@@ -2,23 +2,13 @@ package domain;
 
 import dto.ProductDto;
 import dto.ProductDto.ProductInfoResponse;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
@@ -32,51 +22,50 @@ import org.hibernate.envers.Audited;
 @Entity
 public class Product extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private Long sellerId;
-  // @Audited(withModifiedFlag = true, modifiedColumnName = "korean_name_changed")
-  private String koreanName;
-  // @Audited(withModifiedFlag = true, modifiedColumnName = "english_name_changed")
-  private String englishName;
-  // @Audited(withModifiedFlag = true, modifiedColumnName = "description_changed")
-  private String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long sellerId;
+    // @Audited(withModifiedFlag = true, modifiedColumnName = "korean_name_changed")
+    private String koreanName;
+    // @Audited(withModifiedFlag = true, modifiedColumnName = "english_name_changed")
+    private String englishName;
+    // @Audited(withModifiedFlag = true, modifiedColumnName = "description_changed")
+    private String description;
 
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<ProductItem> productItemList = new ArrayList<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductItem> productItemList = new ArrayList<>();
 
-  @ManyToOne
-  private ProductCategory productCategory;
-  @Column(name = "usable")
-  private boolean usable;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private ProductCategory productCategory;
 
-  @ManyToOne
-  private Brand brand;
+    @ManyToOne
+    private Brand brand;
 
-  private String thumbnailImagePath;
+    private String thumbnailImagePath;
 
 
-  public static Product of(Long sellerId, ProductDto.SaveRequest productRequestDto) {
-    return Product.builder()
-        .sellerId(sellerId)
-        .koreanName(productRequestDto.getKoreanName())
-        .englishName(productRequestDto.getEnglishName())
-        .description(productRequestDto.getDescription())
-        .productItemList(productRequestDto.getProductItemList().stream()
-            .map(productItem -> ProductItem.of(sellerId, productItem))
-            .collect(Collectors.toList()))
-        .build();
-  }
+    public static Product of(Long sellerId, ProductDto.SaveRequest productRequestDto) {
+        return Product.builder()
+                .sellerId(sellerId)
+                .koreanName(productRequestDto.getKoreanName())
+                .englishName(productRequestDto.getEnglishName())
+                .description(productRequestDto.getDescription())
+                .productItemList(productRequestDto.getProductItemList().stream()
+                        .map(productItem -> ProductItem.of(sellerId, productItem))
+                        .collect(Collectors.toList()))
+                .build();
+    }
 
-  public ProductInfoResponse toProductResponseInfo() {
-    return ProductInfoResponse.builder()
-        .id(this.getId())
-        .englishName(this.getEnglishName())
-        .koreanName(this.getKoreanName())
-        .description(this.getDescription())
-        .thumbnailImagePath(this.getThumbnailImagePath())
-        .brandInfoResponse(this.getBrand().toBrandInfoResponse())
-        .build();
-  }
+    public ProductInfoResponse toProductResponseInfo() {
+        return ProductInfoResponse.builder()
+                .id(this.getId())
+                .englishName(this.getEnglishName())
+                .koreanName(this.getKoreanName())
+                .description(this.getDescription())
+                .thumbnailImagePath(this.getThumbnailImagePath())
+                .brandInfoResponse(this.getBrand().toBrandInfoResponse())
+                .build();
+    }
 }

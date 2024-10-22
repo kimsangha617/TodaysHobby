@@ -6,5 +6,6 @@ import lombok.Getter;
 public enum ProductItemStatus {
     ON_SALE,
     SOLD_OUT,
-    DELETED
+    STOP_SELLING,
+    DELETED,
 }

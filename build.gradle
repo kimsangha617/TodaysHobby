@@ -43,6 +43,8 @@ subprojects {
         runtimeOnly 'com.h2database:h2'
         runtimeOnly 'com.mysql:mysql-connector-j'
         annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.security:spring-security-test'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
         testImplementation 'org.junit.jupiter:junit-jupiter'
     }
@@ -50,7 +52,7 @@ subprojects {
 }
 
 dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter-com.cms.security'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
 
 
 }

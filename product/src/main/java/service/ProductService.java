@@ -14,7 +14,7 @@ public class ProductService {
   private final ProductRepository productRepository;
 
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Product createProduct(SaveRequest requestDto, Long sellerId) {
 //    if (productRepository.getReferenceById(requestDto.get()))
 
@@ -25,6 +25,12 @@ public class ProductService {
       if (requestDto == null) {
         throw new IllegalArgumentException("requestDto is null");
       }
+      if (sellerId == null) {
+        throw new IllegalArgumentException("sellerId is null");
+      }
+        if (productRepository.findByKoreanName(requestDto.getKoreanName()).isPresent() ) {
+            throw new IllegalArgumentException(requestDto.getKoreanName() + "이 존재합니다.");
+        }
     }
 
     if (!requestDto.isValid()) {
@@ -50,11 +56,36 @@ public class ProductService {
     return productRepository.save(Product.of(sellerId, requestDto));
   }
 
-  @Transactional
-  public ProductInfoResponse findProductInfo(Long productId) {
+
+  @Transactional(readOnly = true)
+  public ProductInfoResponse getProductInfoByProductName(String productName) {
+    if (productName == null || productName.isEmpty()) {
+      throw new IllegalArgumentException("productName is null or empty");
+    }
+
+    return productRepository.findByKoreanName(productName)
+            .orElseThrow(() -> new ProductNotFoundException(productName + "이 존재하지 않습니다."))
+            .toProductResponseInfo();
+
+  }
+
+  @Transactional(readOnly = true)
+  public ProductInfoResponse getProductInfoByProductId(Long productId) {
+    if (productId == null) {
+      throw new IllegalArgumentException("productId is null");
+    }
     return productRepository.findById(productId)
             .orElseThrow(() -> new ProductNotFoundException(productId + "에 해당하는 상품이 존재하지 않습니다."))
             .toProductResponseInfo();
+  }
+
+  public Page<Product> getProductsPagedAndSorted(int page, int size, String sortDirection) {
+    if (sortDirection == null || sortDirection.isEmpty()) {
+      sortDirection = "DESC";
+    }
+
+    Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), "price"));
+    return productRepository.findAll(pageable);
   }
 
   //TODO 카테고리별 상품 조회

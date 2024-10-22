@@ -28,6 +28,6 @@ public class ProductCategory {
     private String name;
 
     @OneToMany(mappedBy = "productCategory")
-    private Set<Product> productList = new HashSet<>();
+    private Set<ProductItem> productItemList = new HashSet<>();
 
 }

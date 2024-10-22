@@ -1,21 +1,16 @@
 package domain;
 
 import dto.ProductItemDto;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import type.ProductSize;
-
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import type.ProductColor;
+import type.ProductItemStatus;
+import type.ProductSize;
 
 @Getter
 @NoArgsConstructor
@@ -39,11 +34,22 @@ public class ProductItem extends BaseEntity {
 
   private Integer stockQuantity;
 
+  @Enumerated(EnumType.STRING)
   private ProductSize productSize;
+
+  @Enumerated(EnumType.STRING)
+  private ProductColor productColor;
+
+  @Enumerated(EnumType.STRING)
+  private ProductItemStatus productItemStatus;
 
   @ManyToOne
   @JoinColumn(name = "product_id")
   private Product product;
+
+  @OneToOne
+  @JoinColumn(name = "sku_id")
+  private StockKeepingUnit sku;
 
   public static ProductItem of(Long sellerId, ProductItemDto.Request productRequestDto) {
     return ProductItem.builder()
