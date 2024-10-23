@@ -31,7 +31,8 @@ dependencies {
 flyway {
     driver = 'com.mysql.cj.jdbc.Driver'
     url = 'jdbc:mysql://localhost:3306/todayshobby'
-    user = 'commonuser'
+    user = 'todayshobby'
     password = '1234'
     locations = ['classpath:db/migration']
+    baselineOnMigrate = true
 }

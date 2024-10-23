@@ -18,9 +18,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity<U> {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  protected Long id;
+//  @Id
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
+//  protected Long id;
 
   @CreatedDate
   protected LocalDateTime createdAt;

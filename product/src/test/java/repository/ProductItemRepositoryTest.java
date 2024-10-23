@@ -1,23 +1,21 @@
 package repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.Product;
 import domain.ProductItem;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import type.ProductColor;
 import type.ProductItemStatus;
 import type.ProductSize;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration(classes = ProductItemRepository.class)
 @ActiveProfiles("test")
