@@ -1,7 +1,9 @@
 package service;
 
 import domain.Product;
+import domain.ProductItem;
 import dto.ProductDto.*;
+import dto.ProductItemDto;
 import exception.product.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,16 +13,20 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import repository.ProductItemRepository;
 import repository.ProductRepository;
 
 @RequiredArgsConstructor
 @Service
 public class ProductService {
   private final ProductRepository productRepository;
+  private final ProductItemRepository productItemRepository;
+
 
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public Product createProduct(SaveRequest requestDto, Long sellerId) {
+  public Product saveProduct(Product product, Long sellerId) {
+    /**
 //    if (productRepository.getReferenceById(requestDto.get()))
 
 
@@ -40,8 +46,9 @@ public class ProductService {
 
     if (!requestDto.isValid()) {
       throw new IllegalArgumentException("requestDto is not valid");
-
     }
+
+
 
     // Save validation ( 제약사항 )
     // 중복 이름 허용 불가
@@ -57,6 +64,7 @@ public class ProductService {
 
 //    ---
 //    저장에 필요한 정보 조회 + 저장 로직
+    */
 
     return productRepository.save(Product.of(sellerId, requestDto));
   }
@@ -91,6 +99,16 @@ public class ProductService {
 
     Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), "price"));
     return productRepository.findAll(pageable);
+  }
+
+
+  public ProductItem saveProductItem(ProductItemDto.SaveRequest requestDto) {
+    ProductItem newProductItem = productItemRepository.save(requestDto.toEntity());
+
+    return newProductItem;
+  }
+
+  public void checkProductExists(String name) {
   }
 
   //TODO 카테고리별 상품 조회

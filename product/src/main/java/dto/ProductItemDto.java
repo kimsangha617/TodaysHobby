@@ -16,7 +16,7 @@ public class ProductItemDto {
   @NoArgsConstructor
   @AllArgsConstructor
   @Builder
-  public static class Request {
+  public static class SaveRequest {
     private Long productId;
     private String name;
     private Integer price;

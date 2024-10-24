@@ -17,7 +17,7 @@ public class ProductDto {
     private String koreanName;
     private String englishName;
     private String description;
-    private List<ProductItemDto.Request> productItemList;
+    private List<ProductItemDto.SaveRequest> productItemList;
 
     public boolean isValid() {
 //      return StringUitils.isNotBlank(name) && StringUitils.isNotBlank(description);

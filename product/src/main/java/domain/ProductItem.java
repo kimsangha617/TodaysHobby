@@ -51,7 +51,7 @@ public class ProductItem extends BaseEntity {
   @JoinColumn(name = "sku_id")
   private StockKeepingUnit sku;
 
-  public static ProductItem of(Long sellerId, ProductItemDto.Request productRequestDto) {
+  public static ProductItem of(Long sellerId, ProductItemDto.SaveRequest productRequestDto) {
     return ProductItem.builder()
         .sellerId(sellerId)
         .name(productRequestDto.getName())
