@@ -2,10 +2,14 @@ package service;
 
 import domain.Product;
 import domain.ProductItem;
+import dto.ProductDto;
 import dto.ProductDto.*;
 import dto.ProductItemDto;
 import exception.product.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +29,7 @@ public class ProductService {
 
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public Product saveProduct(Product product, Long sellerId) {
+  public Product saveProduct(ProductDto.SaveRequest requestDto, Long sellerId) {
     /**
 //    if (productRepository.getReferenceById(requestDto.get()))
 
@@ -66,8 +70,27 @@ public class ProductService {
 //    저장에 필요한 정보 조회 + 저장 로직
     */
 
-    return productRepository.save(Product.of(sellerId, requestDto));
+ 
+    
+    Product savedProduct = productRepository.save(Product.of(sellerId, requestDto));
+    
+        return productRepository.save(Product.of(sellerId, requestDto));
   }
+
+  @Transactional
+  public ProductItemDto.SaveResponse addProductItems(Long productId, ProductItemDto.SaveRequest requestDto) {
+    
+    Product productRef = productRepository.getReferenceById(productId);
+                        // .orElseThrow( () -> new ProductNotFoundException("상품을 찾을 수 없습니다."))
+
+
+    ProductItem savedItem = productItemRepository.save(ProductItem.of(productRef, requestDto));
+
+    return ProductItemDto.from(savedItem);
+    // createProductItems(saveProduct, itemRequests)
+
+  }
+
 
 
   @Transactional(readOnly = true)
@@ -92,6 +115,8 @@ public class ProductService {
             .toProductResponseInfo();
   }
 
+ 
+
   public Page<Product> getProductsPagedAndSorted(int page, int size, String sortDirection) {
     if (sortDirection == null || sortDirection.isEmpty()) {
       sortDirection = "DESC";
@@ -102,14 +127,8 @@ public class ProductService {
   }
 
 
-  public ProductItem saveProductItem(ProductItemDto.SaveRequest requestDto) {
-    ProductItem newProductItem = productItemRepository.save(requestDto.toEntity());
 
-    return newProductItem;
-  }
-
-  public void checkProductExists(String name) {
-  }
+ 
 
   //TODO 카테고리별 상품 조회
   //TODO 검색

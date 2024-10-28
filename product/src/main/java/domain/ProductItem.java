@@ -2,10 +2,14 @@ package domain;
 
 import dto.ProductItemDto;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 import type.ProductColor;
@@ -13,7 +17,7 @@ import type.ProductItemStatus;
 import type.ProductSize;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Audited
@@ -30,20 +34,23 @@ public class ProductItem extends BaseEntity {
   private String name;
 
   @Audited
-  private Integer price;
+  private BigDecimal price;
 
   private Integer stockQuantity;
 
   @Enumerated(EnumType.STRING)
-  private ProductSize productSize;
+  private ProductSize size;
 
   @Enumerated(EnumType.STRING)
-  private ProductColor productColor;
+  private ProductColor color;
 
   @Enumerated(EnumType.STRING)
-  private ProductItemStatus productItemStatus;
+  private ProductItemStatus status;
 
-  @ManyToOne
+  @Enumerated(EnumType.STRING)
+  private ProductCategory category;
+
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id")
   private Product product;
 
@@ -51,10 +58,14 @@ public class ProductItem extends BaseEntity {
   @JoinColumn(name = "sku_id")
   private StockKeepingUnit sku;
 
-  public static ProductItem of(Long sellerId, ProductItemDto.SaveRequest productRequestDto) {
+  public static ProductItem of(Product productRef, ProductItemDto.SaveRequest productRequestDto) {
     return ProductItem.builder()
-        .sellerId(sellerId)
+        .product(productRef)
+        .color(productRequestDto.getProductColor())
+        .size(productRequestDto.getProductSize())
         .name(productRequestDto.getName())
+        .category(productRequestDto.getProductCategory())
+        .status(ProductItemStatus.ON_SALE)
         .price(productRequestDto.getPrice())
         .stockQuantity(productRequestDto.getStockQuantity())
         .build();

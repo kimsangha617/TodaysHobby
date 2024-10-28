@@ -33,9 +33,9 @@ public class Product extends BaseEntity {
     // @Audited(withModifiedFlag = true, modifiedColumnName = "description_changed")
     private String description;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductItem> productItemList = new ArrayList<>();
+    // @Builder.Default
+    // @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    // private List<ProductItem> productItemList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -53,9 +53,9 @@ public class Product extends BaseEntity {
                 .koreanName(productRequestDto.getKoreanName())
                 .englishName(productRequestDto.getEnglishName())
                 .description(productRequestDto.getDescription())
-                .productItemList(productRequestDto.getProductItemList().stream()
-                        .map(productItem -> ProductItem.of(sellerId, productItem))
-                        .collect(Collectors.toList()))
+                // .productItemList(productRequestDto.getProductItemList().stream()
+                        // .map(productItem -> ProductItem.of(sellerId, productItem))
+                        // .collect(Collectors.toList()))
                 .build();
     }
 

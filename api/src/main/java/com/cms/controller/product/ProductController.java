@@ -6,7 +6,6 @@ import dto.ProductItemDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -20,7 +19,7 @@ import service.ProductService;
 public class ProductController {
 
     private final ProductService productService;
-    private final ModelMapper modelMapper;
+//    private final ModelMapper modelMapper;
 
 
     @GetMapping("/heartbeat")
@@ -40,7 +39,8 @@ public class ProductController {
 //        존재하면 Exception
 //        없으면 만든다
         productService.checkProductExists(requestDto.getKoreanName());
-        Product newProduct = productService.saveProduct(modelMapper.map(requestDto, Product.class), sellerId);
+//        Product newProduct = productService.saveProduct(modelMapper.map(requestDto, Product.class), sellerId);
+        Product newProduct = productService.saveProduct(requestDto,sellerId);
         return ResponseEntity.status(HttpStatus.OK).body(newProduct.getId());
     }
 
