@@ -1,27 +1,29 @@
-package domain;
+package com.cms.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Version;
+import java.math.BigDecimal;
+
+import jakarta.persistence.*;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
+@Table(name = "sku")
 @Entity
 public class StockKeepingUnit extends BaseEntity {
 
     @Id
+    @Column(name = "sku_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -87,17 +89,30 @@ public class StockKeepingUnit extends BaseEntity {
     // 나이키 포스 / 흰 / 275 / skuId: 4
     // 나이키 포스 / 빨간색 / 275 / skuId: 5
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
     private String name;
+
+    private String color;
+
+    private String size;
     
     private Integer stockQuantity;
     
-    private Integer price;
+//    private boolean isActive;
 
     @OneToOne(mappedBy = "sku")
+    @JoinColumn(name = "product_item_id")
     private ProductItem productItem;
+
+    private String generateSkuCode(Product product, String color, String size) {
+        return String.format("%s-%s-%s-%03d",
+            product.getEnglishName().substring(0, 5),
+            color.substring(0, 3).toUpperCase(),
+            size.toUpperCase()
+        );
+    }
     
 }

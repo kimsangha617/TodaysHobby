@@ -1,6 +1,6 @@
-package domain;
+package com.cms.domain;
 
-import dto.ProductItemDto;
+import com.cms.dto.ProductItemDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,9 +12,9 @@ import java.math.BigDecimal;
 
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
-import type.ProductColor;
-import type.ProductItemStatus;
-import type.ProductSize;
+import com.cms.type.ProductColor;
+import com.cms.type.ProductItemStatus;
+import com.cms.type.ProductSize;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +25,7 @@ import type.ProductSize;
 @Entity
 public class ProductItem extends BaseEntity {
   @Id
+  @Column(name = "product_item_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
@@ -47,7 +48,8 @@ public class ProductItem extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private ProductItemStatus status;
 
-  @Enumerated(EnumType.STRING)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id")
   private ProductCategory category;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -58,9 +60,9 @@ public class ProductItem extends BaseEntity {
   @JoinColumn(name = "sku_id")
   private StockKeepingUnit sku;
 
-  public static ProductItem of(Product productRef, ProductItemDto.SaveRequest productRequestDto) {
+  public static ProductItem of(Product product, ProductItemDto.SaveRequest productRequestDto) {
     return ProductItem.builder()
-        .product(productRef)
+        .product(product)
         .color(productRequestDto.getProductColor())
         .size(productRequestDto.getProductSize())
         .name(productRequestDto.getName())

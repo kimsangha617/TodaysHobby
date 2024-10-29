@@ -1,8 +1,9 @@
 package com.cms.controller.product;
 
-import domain.Product;
-import dto.ProductDto;
-import dto.ProductItemDto;
+import com.cms.domain.Product;
+import com.cms.dto.ProductDto;
+import com.cms.dto.ProductItemDto;
+import com.cms.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,12 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import service.ProductService;
+
 
 @Slf4j
-@RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -29,8 +30,9 @@ public class ProductController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity createProduct(@Valid ProductDto.SaveRequest requestDto, Long sellerId, Errors errors) {
+        log.info("here");
         if (errors.hasErrors()) {
             return badRequest(errors);
 //          return errors.getAllErrors().get(0).getDefaultMessage();
@@ -38,21 +40,21 @@ public class ProductController {
 //        Product가 있는지 확인하고
 //        존재하면 Exception
 //        없으면 만든다
-        productService.checkProductExists(requestDto.getKoreanName());
+        // productService.checkProductExists(requestDto.getKoreanName());
 //        Product newProduct = productService.saveProduct(modelMapper.map(requestDto, Product.class), sellerId);
-        Product newProduct = productService.saveProduct(requestDto,sellerId);
+        Product newProduct = productService.saveProduct(requestDto, sellerId);
         return ResponseEntity.status(HttpStatus.OK).body(newProduct.getId());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("")
+    public ResponseEntity getProducts() {
+        log.info("here");
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts());
     }
 
     private ResponseEntity badRequest(Errors errors) {
         return ResponseEntity.badRequest().body(errors.getAllErrors().get(0).getDefaultMessage());
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
-    public String createProductItem(@Valid ProductItemDto.SaveRequest requestDto, Errors errors) {
-//        ProductItem newProductItem = productService.saveProductItem(modelMapper.map(requestDto, ProductItemDto.class));
-        return null;
     }
 
 }

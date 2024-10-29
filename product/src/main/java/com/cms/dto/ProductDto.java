@@ -1,8 +1,8 @@
-package dto;
+package com.cms.dto;
 
 import java.util.List;
 
-import dto.BrandDto.BrandInfoResponse;
+import com.cms.dto.BrandDto.BrandInfoResponse;
 import lombok.*;
 
 public class ProductDto {

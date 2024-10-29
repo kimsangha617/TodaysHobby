@@ -1,4 +1,4 @@
-package service;
+package com.cms.service;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;

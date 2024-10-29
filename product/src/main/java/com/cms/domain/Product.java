@@ -1,13 +1,8 @@
-package domain;
+package com.cms.domain;
 
-import dto.ProductDto;
-import dto.ProductDto.ProductInfoResponse;
+import com.cms.dto.ProductDto;
+import com.cms.dto.ProductDto.ProductInfoResponse;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
@@ -23,6 +18,7 @@ import org.hibernate.envers.Audited;
 public class Product extends BaseEntity {
 
     @Id
+    @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long sellerId;
@@ -42,12 +38,13 @@ public class Product extends BaseEntity {
     private ProductCategory productCategory;
 
     @ManyToOne
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 
     private String thumbnailImagePath;
 
 
-    public static Product of(Long sellerId, ProductDto.SaveRequest productRequestDto) {
+    public static Product of(ProductDto.SaveRequest productRequestDto, Long sellerId) {
         return Product.builder()
                 .sellerId(sellerId)
                 .koreanName(productRequestDto.getKoreanName())

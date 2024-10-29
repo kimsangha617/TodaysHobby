@@ -1,7 +1,7 @@
-package repository;
+package com.cms.repository;
 
-import domain.Product;
-import domain.ProductItem;
+import com.cms.domain.Product;
+import com.cms.domain.ProductItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import type.ProductColor;
-import type.ProductItemStatus;
-import type.ProductSize;
+import com.cms.type.ProductColor;
+import com.cms.type.ProductItemStatus;
+import com.cms.type.ProductSize;
 
 import java.util.List;
 

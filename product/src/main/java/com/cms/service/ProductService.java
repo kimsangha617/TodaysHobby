@@ -1,10 +1,10 @@
-package service;
+package com.cms.service;
 
-import domain.Product;
-import domain.ProductItem;
-import dto.ProductDto;
-import dto.ProductDto.*;
-import dto.ProductItemDto;
+import com.cms.domain.Product;
+import com.cms.domain.ProductItem;
+import com.cms.dto.ProductDto;
+import com.cms.dto.ProductDto.*;
+import com.cms.dto.ProductItemDto;
 import exception.product.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import repository.ProductItemRepository;
-import repository.ProductRepository;
+import com.cms.repository.ProductItemRepository;
+import com.cms.repository.ProductRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -70,21 +70,24 @@ public class ProductService {
 //    저장에 필요한 정보 조회 + 저장 로직
     */
 
- 
-    
-    Product savedProduct = productRepository.save(Product.of(sellerId, requestDto));
-    
-        return productRepository.save(Product.of(sellerId, requestDto));
+
+
+    Product savedProduct = productRepository.save(Product.of(requestDto, sellerId));
+    return productRepository.save(Product.of(requestDto, sellerId));
+
   }
 
   @Transactional
   public ProductItemDto.SaveResponse addProductItems(Long productId, ProductItemDto.SaveRequest requestDto) {
     
-    Product productRef = productRepository.getReferenceById(productId);
+    // Product productRef = productRepository.getReferenceById(productId);
                         // .orElseThrow( () -> new ProductNotFoundException("상품을 찾을 수 없습니다."))
 
+    Product product = productRepository.findById(productId)
+        .orElseThrow(() -> new ProductNotFoundException("상품이 존재하지 않습니다. productId: " + productId));
+    
 
-    ProductItem savedItem = productItemRepository.save(ProductItem.of(productRef, requestDto));
+    ProductItem savedItem = productItemRepository.save(ProductItem.of(product, requestDto));
 
     return ProductItemDto.from(savedItem);
     // createProductItems(saveProduct, itemRequests)
@@ -126,9 +129,10 @@ public class ProductService {
     return productRepository.findAll(pageable);
   }
 
+  public List<Product> getAllProducts() {
+    return null;
+  }
 
-
- 
 
   //TODO 카테고리별 상품 조회
   //TODO 검색

@@ -1,17 +1,17 @@
-package dto;
+package com.cms.dto;
 
 import java.math.BigDecimal;
 
-import domain.ProductCategory;
-import domain.ProductItem;
+import com.cms.domain.ProductCategory;
+import com.cms.domain.ProductItem;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import type.ProductColor;
-import type.ProductItemStatus;
-import type.ProductSize;
+import com.cms.type.ProductColor;
+import com.cms.type.ProductItemStatus;
+import com.cms.type.ProductSize;
 
 public class ProductItemDto {
 

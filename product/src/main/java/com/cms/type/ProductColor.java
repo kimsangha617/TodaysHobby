@@ -1,4 +1,4 @@
-package type;
+package com.cms.type;
 
 import lombok.Getter;
 

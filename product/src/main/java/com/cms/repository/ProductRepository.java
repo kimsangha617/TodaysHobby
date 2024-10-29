@@ -1,6 +1,6 @@
-package repository;
+package com.cms.repository;
 
-import domain.Product;
+import com.cms.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.history.RevisionRepository;
