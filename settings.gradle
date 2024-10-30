@@ -7,4 +7,5 @@ include 'stock'
 include 'product'
 include 'common'
 include 'board'
+include 'user'
 
