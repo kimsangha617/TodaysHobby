@@ -1,4 +1,4 @@
-package com.cms.controller.dto.category;
+package com.cms.controller.category.dto;
 
 public class CategoryDto {
 

@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS REVINFO (
+CREATE TABLE IF NOT EXISTS revinfo (
     REV INTEGER NOT NULL AUTO_INCREMENT,
     REVTSTMP BIGINT,
     PRIMARY KEY (REV)
 );
 
-create table IF not exists PRODUCT
+create table IF not exists product
 (
     product_id   bigint auto_increment,
     seller_id    bigint not null,
@@ -22,7 +22,7 @@ create table IF not exists PRODUCT
 ) engine=InnoDB;
 create index idx_product_id on product (product_id);
 
-create table IF not exists PRODUCT_AUD (
+create table IF not exists product_aud (
    product_id   bigint auto_increment,
    seller_id    bigint not null,
    korean_name  varchar(255),
@@ -45,7 +45,7 @@ INSERT into product (seller_id, korean_name, english_name, description, brand_id
 INSERT into product (seller_id, korean_name, english_name, description, brand_id, category_id, thumbnail_image_path) values (1, '부츠', 'boots', '부츠', 2, 2, null);
 INSERT into product (seller_id, korean_name, english_name, description, brand_id, category_id, thumbnail_image_path) values (1, '청바지', 'NewJeans', '새로운 청바지', 3, 2, null);
 
-create table IF not exists PRODUCT_ITEM
+create table IF not exists product_item
 (
     product_item_id   bigint auto_increment,
     seller_id    bigint not null,
@@ -64,9 +64,9 @@ create table IF not exists PRODUCT_ITEM
     modified_by VARCHAR(255),
     primary key (product_item_id)
     ) engine=InnoDB;
-create index idx_product_item_id on Product_item (product_item_id);
+create index idx_product_item_id on product_item (product_item_id);
 
-create table IF not exists PRODUCT_ITEM_AUD (
+create table IF not exists product_item_aud (
     product_item_id   bigint auto_increment,
     seller_id    bigint not null,
     name  varchar(255),
@@ -88,7 +88,7 @@ create table IF not exists PRODUCT_ITEM_AUD (
     );
 
 
-create table IF not exists BRAND
+create table IF not exists brand
 (
     brand_id   bigint auto_increment,
     korean_name  varchar(255),
@@ -101,9 +101,9 @@ create table IF not exists BRAND
     modified_by VARCHAR(255),
     primary key (brand_id)
 ) engine=InnoDB;
-create index idx_brand_id on Brand (brand_id);
+create index idx_brand_id on brand (brand_id);
 
-create table IF not exists BRAND_AUD (
+create table IF not exists brand_aud (
    brand_id BIGINT auto_increment,
    korean_name  varchar(255),
    english_name varchar(255),
@@ -124,7 +124,7 @@ INSERT into Brand (korean_name, english_name, category_id, thumbnail_image_path)
 INSERT into Brand (korean_name, english_name, category_id, thumbnail_image_path) values ('캘빈클라인', 'Calvin Klein', 2, null);
 
 
-create table IF not exists CATEGORY
+create table IF not exists category
 (
     category_id   bigint auto_increment,
     korean_name varchar(255),
@@ -136,9 +136,9 @@ create table IF not exists CATEGORY
     modified_by VARCHAR(255),
     primary key (category_id)
     ) engine=InnoDB;
-create index idx_category_id on Category (category_id);
+create index idx_category_id on category (category_id);
 
-create table IF not exists CATEGORY_AUD (
+create table IF not exists category_aud (
     category_id BIGINT auto_increment,
     korean_name varchar(255),
     english_name varchar(255),
@@ -152,7 +152,7 @@ create table IF not exists CATEGORY_AUD (
     PRIMARY KEY (category_id, REV)
     );
 
-create table if not exists SKU
+create table if not exists sku
 (
     sku_id   bigint auto_increment,
     sku_code varchar(255),
@@ -168,9 +168,9 @@ create table if not exists SKU
     modified_by VARCHAR(255),
     primary key (sku_id)
     ) engine=InnoDB;
-create index idx_sku_id on SKU (sku_id);
+create index idx_sku_id on sku (sku_id);
 
-create table if not exists SKU_AUD (
+create table if not exists sku_aud (
     sku_id   bigint auto_increment,
     sku_code varchar(255),
     product_id bigint,

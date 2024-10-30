@@ -1,4 +1,4 @@
-package com.cms.controller.dto.brand;
+package com.cms.controller.brand.dto;
 
 import com.cms.domain.Brand;
 import jakarta.validation.constraints.NotBlank;

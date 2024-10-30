@@ -1,4 +1,4 @@
-package com.cms.controller.dto.product;
+package com.cms.controller.product.dto;
 
 import java.math.BigDecimal;
 

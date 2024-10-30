@@ -1,7 +1,7 @@
 package com.cms.controller.product;
 
 import com.cms.domain.Product;
-import com.cms.controller.dto.product.ProductDto;
+import com.cms.controller.product.dto.ProductDto;
 import com.cms.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

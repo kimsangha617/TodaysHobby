@@ -1,6 +1,6 @@
 package com.cms.controller.brand;
 
-import com.cms.controller.dto.brand.BrandDto;
+import com.cms.controller.brand.dto.BrandDto;
 import com.cms.domain.Brand;
 import com.cms.service.BrandService;
 import lombok.RequiredArgsConstructor;
