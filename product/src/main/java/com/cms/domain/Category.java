@@ -5,8 +5,9 @@ import lombok.*;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,23 +15,28 @@ import java.util.Set;
 @Audited
 @AuditOverride(forClass = BaseEntity.class)
 @Entity
-public class Brand extends BaseEntity{
+public class Category extends BaseEntity {
 
     @Id
-    @Column(name = "brand_id")
+    @Column(name = "category_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 20)
     private String koreanName;
 
     @Column(unique = true)
     private String englishName;
 
-    @Column(unique = false)
-    private String thumbnailImagePath;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Category parentCategory;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "brand")
-    private Set<Product> productList = new HashSet<>();
+    @OneToMany(mappedBy = "parentCategory")
+    private List<Category> childCategories = new ArrayList<>();
+
+    @Column(name = "depth_level")
+    private Integer depthLevel;
+
+
 }

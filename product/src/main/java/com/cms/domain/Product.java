@@ -1,11 +1,12 @@
 package com.cms.domain;
 
-import com.cms.dto.ProductDto;
-import com.cms.dto.ProductDto.ProductInfoResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,13 +30,13 @@ public class Product extends BaseEntity {
     // @Audited(withModifiedFlag = true, modifiedColumnName = "description_changed")
     private String description;
 
-    // @Builder.Default
-    // @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    // private List<ProductItem> productItemList = new ArrayList<>();
+     @Builder.Default
+     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+     private List<ProductItem> productItemList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private ProductCategory productCategory;
+    private ProductCategory category;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -43,27 +44,4 @@ public class Product extends BaseEntity {
 
     private String thumbnailImagePath;
 
-
-    public static Product of(ProductDto.SaveRequest productRequestDto, Long sellerId) {
-        return Product.builder()
-                .sellerId(sellerId)
-                .koreanName(productRequestDto.getKoreanName())
-                .englishName(productRequestDto.getEnglishName())
-                .description(productRequestDto.getDescription())
-                // .productItemList(productRequestDto.getProductItemList().stream()
-                        // .map(productItem -> ProductItem.of(sellerId, productItem))
-                        // .collect(Collectors.toList()))
-                .build();
-    }
-
-    public ProductInfoResponse toProductResponseInfo() {
-        return ProductInfoResponse.builder()
-                .id(this.getId())
-                .englishName(this.getEnglishName())
-                .koreanName(this.getKoreanName())
-                .description(this.getDescription())
-                .thumbnailImagePath(this.getThumbnailImagePath())
-                .brandInfoResponse(this.getBrand().toBrandInfoResponse())
-                .build();
-    }
 }

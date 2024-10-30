@@ -1,6 +1,5 @@
 package com.cms.domain;
 
-import com.cms.dto.ProductItemDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -60,17 +59,6 @@ public class ProductItem extends BaseEntity {
   @JoinColumn(name = "sku_id")
   private StockKeepingUnit sku;
 
-  public static ProductItem of(Product product, ProductItemDto.SaveRequest productRequestDto) {
-    return ProductItem.builder()
-        .product(product)
-        .color(productRequestDto.getProductColor())
-        .size(productRequestDto.getProductSize())
-        .name(productRequestDto.getName())
-        .category(productRequestDto.getProductCategory())
-        .status(ProductItemStatus.ON_SALE)
-        .price(productRequestDto.getPrice())
-        .stockQuantity(productRequestDto.getStockQuantity())
-        .build();
-  }
+
 
 }

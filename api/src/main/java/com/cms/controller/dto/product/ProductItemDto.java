@@ -1,4 +1,4 @@
-package com.cms.dto;
+package com.cms.controller.dto.product;
 
 import java.math.BigDecimal;
 
@@ -20,7 +20,7 @@ public class ProductItemDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor
   @Builder
-  public static class SaveRequest {
+  public static class ProductItemSaveRequest {
     private String name;
     private BigDecimal price;
     private Integer stockQuantity;
@@ -34,7 +34,7 @@ public class ProductItemDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor
   @Builder
-  public static class SaveResponse {
+  public static class ProductItemInfoResponse {
     private Long productId;
     private String name;
     private BigDecimal price;
@@ -45,8 +45,8 @@ public class ProductItemDto {
     private ProductItemStatus productItemStatus;
   }
 
-public static SaveResponse from(ProductItem savedItem) {
-  return SaveResponse.builder()
+public static ProductItemInfoResponse of(ProductItem savedItem) {
+  return ProductItemInfoResponse.builder()
     .productId(savedItem.getId())
     .name(savedItem.getName())
     .price(savedItem.getPrice())

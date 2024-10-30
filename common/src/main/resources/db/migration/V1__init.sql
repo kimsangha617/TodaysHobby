@@ -127,7 +127,9 @@ INSERT into Brand (korean_name, english_name, category_id, thumbnail_image_path)
 create table IF not exists CATEGORY
 (
     category_id   bigint auto_increment,
-    name varchar(255),
+    korean_name varchar(255),
+    english_name varchar(255),
+    depth_level integer,
     created_at DATETIME(6),
     modified_at DATETIME(6),
     created_by VARCHAR(255),
@@ -138,7 +140,9 @@ create index idx_category_id on Category (category_id);
 
 create table IF not exists CATEGORY_AUD (
     category_id BIGINT auto_increment,
-    name varchar(255),
+    korean_name varchar(255),
+    english_name varchar(255),
+    depth_level integer,
     created_at DATETIME(6),
     modified_at DATETIME(6),
     created_by VARCHAR(255),
