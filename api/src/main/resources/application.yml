@@ -1,0 +1,5 @@
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha # 태그를 알파벳 순서로 정렬
+    operations-sorter: alpha # API 들을 알파벳 순으로 정렬
+    doc-expansion: none # 문서 확장 활성화 여부
