@@ -1,4 +1,4 @@
-package com.haas.user;
+package com.cms.users;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

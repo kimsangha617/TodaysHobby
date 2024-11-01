@@ -72,3 +72,9 @@ project(':product') {
     }
 }
 
+project(':user') {
+    dependencies {
+        implementation(project(':common'))
+    }
+}
+
