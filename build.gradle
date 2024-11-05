@@ -63,6 +63,7 @@ project(':api') {
     dependencies {
         implementation(project(':common'))
         implementation(project(':product'))
+        implementation(project(':user'))
     }
 }
 
