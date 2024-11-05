@@ -1,5 +1,6 @@
 package com.cms.domain;
 
+import com.cms.type.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
@@ -11,6 +12,10 @@ import org.hibernate.envers.Audited;
 @Builder
 @Audited
 @AuditOverride(forClass = BaseEntity.class)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "accountName"),
+        @UniqueConstraint(columnNames = "email")
+})
 @Entity
 public class Account {
 
@@ -28,5 +33,6 @@ public class Account {
 
     private String phoneNumber;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

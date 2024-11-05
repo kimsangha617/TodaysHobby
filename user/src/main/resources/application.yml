@@ -1,1 +1,7 @@
-spring.application.name=user
+application:
+  security:
+    jwt:
+      secret-key: 8E7849CBBADFE7461B321A8B2FD54
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7days
