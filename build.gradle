@@ -72,3 +72,9 @@ project(':product') {
     }
 }
 
+project(':stock') {
+    dependencies {
+        implementation(project(':common'))
+        implementation(project(':product'))
+    }
+}

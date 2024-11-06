@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -30,13 +29,13 @@ public class Product extends BaseEntity {
     // @Audited(withModifiedFlag = true, modifiedColumnName = "description_changed")
     private String description;
 
-     @Builder.Default
-     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-     private List<ProductItem> productItemList = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<ProductItem> productItemList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private ProductCategory category;
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")

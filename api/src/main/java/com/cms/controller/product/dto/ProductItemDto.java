@@ -1,17 +1,13 @@
 package com.cms.controller.product.dto;
 
-import java.math.BigDecimal;
-
-import com.cms.domain.ProductCategory;
+import com.cms.domain.Category;
 import com.cms.domain.ProductItem;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import com.cms.type.ProductColor;
 import com.cms.type.ProductItemStatus;
 import com.cms.type.ProductSize;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 public class ProductItemDto {
 
@@ -26,7 +22,7 @@ public class ProductItemDto {
     private Integer stockQuantity;
     private ProductSize productSize;
     private ProductColor productColor;
-    private ProductCategory productCategory;
+    private Category category;
     private ProductItemStatus productItemStatus;
   }
 
@@ -41,7 +37,7 @@ public class ProductItemDto {
     private Integer stockQuantity;
     private ProductSize productSize;
     private ProductColor productColor;
-    private ProductCategory productCategory;
+    private Category category;
     private ProductItemStatus productItemStatus;
   }
 
@@ -53,7 +49,7 @@ public static ProductItemInfoResponse of(ProductItem savedItem) {
     .stockQuantity(savedItem.getStockQuantity())
     .productSize(savedItem.getSize())
     .productColor(savedItem.getColor())
-    .productCategory(savedItem.getCategory())
+    .category(savedItem.getCategory())
     .productItemStatus(savedItem.getStatus())
   .build();
 }

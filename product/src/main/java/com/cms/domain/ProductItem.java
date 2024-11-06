@@ -28,15 +28,15 @@ public class ProductItem extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long sellerId;
+//  private Long sellerId;
 
-  @Audited
-  private String name;
+//  @Audited
+//  private String name;
 
   @Audited
   private BigDecimal price;
 
-  private Integer stockQuantity;
+//  private Integer stockQuantity;
 
   @Enumerated(EnumType.STRING)
   private ProductSize size;
@@ -47,9 +47,9 @@ public class ProductItem extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private ProductItemStatus status;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "category_id")
-  private ProductCategory category;
+//  @ManyToOne(fetch = FetchType.LAZY)
+//  @JoinColumn(name = "category_id")
+//  private Category category;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id")

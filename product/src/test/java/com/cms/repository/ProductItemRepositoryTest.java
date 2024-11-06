@@ -13,6 +13,7 @@ import com.cms.type.ProductColor;
 import com.cms.type.ProductItemStatus;
 import com.cms.type.ProductSize;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,13 +59,12 @@ public class ProductItemRepositoryTest {
       String name) {
 
     return ProductItem.builder()
-        .sellerId(sellerId)
-        .productItemStatus(productItemStatus)
-        .name(name)
-        .price(price)
-        .productColor(productColor)
-        .productSize(productSize)
-        .stockQuantity(stockQuantity)
+//        .sellerId(sellerId)
+        .status(productItemStatus)
+//        .name(name)
+        .price(BigDecimal.valueOf(price))
+        .color(productColor)
+        .size(productSize)
         .build();
   }
 

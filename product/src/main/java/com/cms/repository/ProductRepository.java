@@ -8,8 +8,7 @@ import org.springframework.data.repository.history.RevisionRepository;
 
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long>,
-        PagingAndSortingRepository<Product,Long>, RevisionRepository<Product, Long, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByKoreanName(String productName);
 
