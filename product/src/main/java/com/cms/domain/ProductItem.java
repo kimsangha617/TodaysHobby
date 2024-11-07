@@ -55,10 +55,10 @@ public class ProductItem extends BaseEntity {
   @JoinColumn(name = "product_id")
   private Product product;
 
-  @OneToOne
-  @JoinColumn(name = "sku_id")
-  private StockKeepingUnit sku;
+//  @OneToOne
+//  @JoinColumn(name = "sku_id")
+//  private Sku sku;
 
-
+  //TODO Stock 과의 연관관계 맵핑을 해제 하면서 데이터 처리를 어떻게 할것인지
 
 }

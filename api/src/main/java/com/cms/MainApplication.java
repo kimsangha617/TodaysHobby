@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EntityListeners(AuditingEntityListener.class)
 @EnableJpaRepositories(repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class, basePackages = "com.cms.repository")
-@EntityScan(basePackages = "com.cms.domain")
 @SpringBootApplication
 public class MainApplication {
   public static void main(String[] args) {

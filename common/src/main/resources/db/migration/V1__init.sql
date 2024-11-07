@@ -48,7 +48,6 @@ INSERT into product (seller_id, korean_name, english_name, description, brand_id
 create table IF not exists product_item
 (
     product_item_id   bigint auto_increment,
-    seller_id    bigint not null,
     name  varchar(255),
     price DECIMAL(19),
     stock_quantity integer,
@@ -68,7 +67,6 @@ create index idx_product_item_id on product_item (product_item_id);
 
 create table IF not exists product_item_aud (
     product_item_id   bigint auto_increment,
-    seller_id    bigint not null,
     name  varchar(255),
     price DECIMAL(19),
     stock_quantity integer,
