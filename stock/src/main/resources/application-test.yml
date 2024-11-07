@@ -1,13 +1,14 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/todayshobby?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: 1234
+    url: jdbc:h2:mem:testdb
     driver-class-name: com.mysql.cj.jdbc.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
     open-in-view: false
-    generate-ddl: true

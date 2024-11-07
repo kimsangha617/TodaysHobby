@@ -7,7 +7,6 @@ import com.cms.type.ProductItemStatus;
 import com.cms.type.ProductSize;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -16,7 +15,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 
@@ -27,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(properties = "spring.flyway.enabled=false")
 @EnableJpaRepositories(basePackages = "com.cms.repository")
 @EntityScan(basePackages = "com.cms.domain")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 class StockRepositoryTest {
 
@@ -39,6 +37,9 @@ class StockRepositoryTest {
 
     @Autowired
     ProductItemRepository productItemRepository;
+
+    @Autowired
+    SkuRepository skuRepository;
 
     @DisplayName("skuId로 재고를 조회한다")
     @Test
@@ -53,7 +54,8 @@ class StockRepositoryTest {
         productRepository.save(product1);
         productItemRepository.save(productItem1);
 
-        Sku sku = Sku.createSku(productItem1);
+        Sku sku = Sku.createSku(1L, product1.getBrand().getEnglishName(), product1.getEnglishName(), productItem1.getColor(), productItem1.getSize());
+        skuRepository.save(sku);
 
         Stock stock1 = Stock.createStock(sku, 10);
         Stock savedStock = stockRepository.save(stock1);
@@ -64,8 +66,24 @@ class StockRepositoryTest {
         //then
 
         assertThat(foundStock.getQuantity()).isEqualTo(10);
-//        assertThat(foundStock.getSku().getId()).isEqualTo(1L);
+        assertThat(foundStock.getSku().getId()).isEqualTo(1L);
+        assertThat(foundStock.getSku().getStock().getQuantity()).isEqualTo(10);
     }
+
+    @DisplayName("상품번호 리스트로 재고를 조회한다")
+    @Test
+    void findAllByProductNumberIn() {
+
+        //given
+//        Stock stock1 = Stock.createStock(1L, 10);
+
+        //when
+
+        //then
+
+    }
+
+
 
     public ProductItem createProductItem(BigDecimal price, String size, String color, String status, Product product) {
         return ProductItem.builder()

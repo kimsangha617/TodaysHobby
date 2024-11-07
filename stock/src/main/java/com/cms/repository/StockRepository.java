@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,9 +16,12 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     @Lock(value = LockModeType.OPTIMISTIC)
     @Query("select s from Stock s where s.id = :id")
-    Optional<Stock> findByIdWithOptimisticLock(@Param("id") Long id);
+    Optional<Stock> findByIdForUpdate(@Param("id") Long id);
 
     @Lock(LockModeType.OPTIMISTIC)
     @Query("SELECT s FROM Stock s WHERE s.sku.skuCode = :skuCode")
     Optional<Stock> findBySkuCodeWithOptimisticLock(@Param("skuCode") String skuCode);
+
+    List<Stock> findAllByProductNumberIn(List<String> productNumbers);
+
 }

@@ -43,6 +43,7 @@ public class Stock extends BaseEntity {
         return Stock.builder()
                 .sku(sku)
                 .quantity(quantity)
+                .stockStatus(StockStatus.IN_STOCK)
                 .build();
     }
 
@@ -50,7 +51,7 @@ public class Stock extends BaseEntity {
         this.quantity += quantity;
     }
 
-    public void decrease(int quantity) {
+    public void decreaseStockQuantity(int quantity) {
         if (this.quantity < quantity) {
             throw new NotEnoughStockException("재고가 부족합니다.");
         }
@@ -61,5 +62,9 @@ public class Stock extends BaseEntity {
         if (this.quantity < quantity) {
             throw new NotEnoughStockException("재고가 부족합니다.");
         }
+    }
+
+    public void increaseStockQuantity(int quantity) {
+        this.quantity += quantity;
     }
 }
