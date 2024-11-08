@@ -93,5 +93,13 @@ public class JwtUtils {
         return false;
     }
 
+    /**
+     * @param token
+     * @return 인증 정보 추출
+     */
+    public Authentication getAuthentication(String token) {
+        return null;
+    }
+
 
 }

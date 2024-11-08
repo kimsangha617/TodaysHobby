@@ -1,5 +1,6 @@
 package com.cms.domain;
 
+import com.cms.dto.AccountSignUpRequest;
 import com.cms.type.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +35,16 @@ public class Account {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
+
+    public static Account of(AccountSignUpRequest signUpRequest, String encryptedPassword) {
+        return Account.builder()
+                .accountName(signUpRequest.getAccountName())
+                .email(signUpRequest.getEmail())
+                .password(encryptedPassword)
+                .phoneNumber(signUpRequest.getPhoneNumber())
+                .role(Role.USER)
+                .build();
+    }
+
 }

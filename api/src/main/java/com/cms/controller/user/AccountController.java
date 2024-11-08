@@ -1,7 +1,8 @@
 package com.cms.controller.user;
 
-import com.cms.controller.user.dto.AccountDto;
-import com.cms.domain.Account;
+import com.cms.dto.AccountSignUpRequest;
+import com.cms.dto.LoginRequest;
+import com.cms.dto.LoginResponse;
 import com.cms.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/user")
-public class UserController {
+@RequestMapping("/api/v1/account")
+public class AccountController {
 
     private final AccountService accountService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Long> createUser(@Valid @RequestBody AccountDto.AccountSignupFormDto accountSaveRequest) {
-        Account newAccountInstance = AccountDto.AccountSignupFormDto.toEntity(accountSaveRequest);
-        accountService.signUp(newAccountInstance);
+    public ResponseEntity<Long> createUser(@Valid @RequestBody AccountSignUpRequest accountSignUpRequest) {
+        accountService.signUp(accountSignUpRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        LoginResponse loginResponse = accountService.login(request);
+        return ResponseEntity.ok(loginResponse);
     }
 
 

@@ -14,6 +14,7 @@ import java.util.HashSet;
 public class AccountDetails implements UserDetails {
 
     private Long id;
+    private String email;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
