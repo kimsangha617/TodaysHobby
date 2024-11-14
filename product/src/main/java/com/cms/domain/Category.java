@@ -32,6 +32,7 @@ public class Category extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Category parentCategory;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parentCategory")
     private List<Category> childCategories = new ArrayList<>();
 
