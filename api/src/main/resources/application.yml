@@ -3,3 +3,25 @@ springdoc:
     tags-sorter: alpha # 태그를 알파벳 순서로 정렬
     operations-sorter: alpha # API 들을 알파벳 순으로 정렬
     doc-expansion: none # 문서 확장 활성화 여부
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+#    url: jdbc:h2:tcp
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+jwt:
+  secret-key-plain: aK9r1xHiAXUvk1XgcFN4kTMwTZbBVmpq
+  expiration: 3600000

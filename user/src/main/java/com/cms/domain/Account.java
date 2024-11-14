@@ -18,7 +18,7 @@ import org.hibernate.envers.Audited;
         @UniqueConstraint(columnNames = "email")
 })
 @Entity
-public class Account {
+public class Account extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +34,7 @@ public class Account {
 
     private String phoneNumber;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 

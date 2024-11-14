@@ -27,10 +27,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final AccountDetailService accountDetailService;
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+            "/api/v1/account/signup",
+            "/api/v1/account/login",
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",
@@ -40,7 +41,6 @@ public class SecurityConfig {
             "/swagger-ui.html"
     };
 
-//    private final AuthenticationProvider authenticationProvider;
 
     @Bean
     UserDetailsService userService() {
@@ -72,8 +72,8 @@ public class SecurityConfig {
         http
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement( session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement( session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
