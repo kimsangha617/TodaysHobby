@@ -25,3 +25,5 @@ spring:
 jwt:
   secret-key-plain: aK9r1xHiAXUvk1XgcFN4kTMwTZbBVmpq
   expiration: 3600000
+  refresh:
+    expiration: 86400000

@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -23,6 +24,8 @@ public class JwtUtils {
     private String secretKeyPlain;
     @Value("${jwt.expiration}")
     private Long accessTokenExpTime;
+    @Value("${jwt.refresh.expiration}")
+    private Long refreshTokenExpTime;
 
 
     // create JWT Token
@@ -40,6 +43,21 @@ public class JwtUtils {
                 .setExpiration(Date.from(tokenValidity.toInstant()))
                 .signWith(signingKeyWithHMACSHA())
                 .compact();
+    }
+
+    public String createRefreshToken(String token) {
+        Claims claims = getClaims(token);
+
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime refreshTokenValidity = now.plusSeconds(refreshTokenExpTime);
+
+        return Jwts.builder()
+                .setSubject(claims.getSubject())
+                .setIssuedAt(Date.from(now.toInstant()))
+                .setExpiration(Date.from(refreshTokenValidity.toInstant()))
+                .signWith(signingKeyWithHMACSHA())
+                .compact();
+
     }
 
     private Key signingKeyWithHMACSHA() {
@@ -79,11 +97,27 @@ public class JwtUtils {
                 .get("role", String.class);
     }
 
+    // 토큰에서 email 추출
+    public String getEmail(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(signingKeyWithHMACSHA())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
+    }
+
     // 토큰 유효성 검증
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(signingKeyWithHMACSHA()).build().parseClaimsJws(token);
-            return true; // 토큰이 유효하면 true 반환
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(signingKeyWithHMACSHA())
+                    .build()
+                    .parseClaimsJws(token);
+
+            Date expiration = claims.getBody().getExpiration();
+            Date now = new Date();
+            return !now.after(expiration);// 토큰이 유효하면 true 반환
         } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
@@ -91,17 +125,9 @@ public class JwtUtils {
         } catch (UnsupportedJwtException e) {
             log.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty: {}", e.getMessage());
+            log.error("JWT claims is wrong: {}", e.getMessage());
         }
         return false;
-    }
-
-    /**
-     * @param token
-     * @return 인증 정보 추출
-     */
-    public Authentication getAuthentication(String token) {
-        return null;
     }
 
 
