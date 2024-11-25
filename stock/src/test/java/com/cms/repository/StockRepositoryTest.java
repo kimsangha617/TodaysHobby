@@ -1,7 +1,7 @@
 package com.cms.repository;
 
 import com.cms.domain.*;
-import com.cms.exception.stock.NotEnoughStockException;
+import com.cms.exception.stock.StockNotEnoughException;
 import com.cms.type.ProductColor;
 import com.cms.type.ProductItemStatus;
 import com.cms.type.ProductSize;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
@@ -57,17 +56,16 @@ class StockRepositoryTest {
         Sku sku = Sku.createSku(1L, product1.getBrand().getEnglishName(), product1.getEnglishName(), productItem1.getColor(), productItem1.getSize());
         skuRepository.save(sku);
 
-        Stock stock1 = Stock.createStock(sku, 10);
+        Stock stock1 = Stock.createStock(1L, 10);
         Stock savedStock = stockRepository.save(stock1);
 
         //when
         Stock foundStock = stockRepository.findById(1L)
-                .orElseThrow( () -> new NotEnoughStockException("재고를 찾을 수 없습니다."));
+                .orElseThrow( () -> new StockNotEnoughException("재고를 찾을 수 없습니다."));
         //then
 
         assertThat(foundStock.getQuantity()).isEqualTo(10);
-        assertThat(foundStock.getSku().getId()).isEqualTo(1L);
-        assertThat(foundStock.getSku().getStock().getQuantity()).isEqualTo(10);
+        assertThat(foundStock.getQuantity()).isEqualTo(10);
     }
 
     @DisplayName("상품번호 리스트로 재고를 조회한다")

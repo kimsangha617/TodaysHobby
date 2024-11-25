@@ -7,8 +7,6 @@ import lombok.*;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
 
-import java.util.Map;
-
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,26 +22,19 @@ public class Sku extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String skuCode;
+    private String skuName;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "product_item_id")
-//    private ProductItem productItem;
-    private Long productId;
+    private Long productItemId;
 
-    @OneToOne(mappedBy = "sku")
+    @OneToOne
+    @JoinColumn(name = "stock_id")
     private Stock stock;
 
-//    @Builder
-//    private Sku(ProductItem item) {
-//        this.productItem = item;
-//        this.skuCode = generateSkuCode(item);
-//    }
 
     public static Sku createSku(Long productId, String brandEngName, String productEngName, ProductColor color, ProductSize size ) {
         return Sku.builder()
-                .productId(productId)
-                .skuCode(generateSkuCode(brandEngName, productEngName, color, size))
+                .productItemId(productId)
+                .skuName(generateSkuCode(brandEngName, productEngName, color, size))
                 .build();
     }
 

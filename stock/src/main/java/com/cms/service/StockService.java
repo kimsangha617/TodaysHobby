@@ -3,6 +3,7 @@ package com.cms.service;
 import com.cms.domain.Stock;
 import com.cms.exception.SkuNotFoundException;
 import com.cms.exception.stock.StockNotFoundException;
+import com.cms.repository.SkuRepository;
 import com.cms.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class StockService {
 
     private final StockRepository stockRepository;
+    private final SkuRepository skuRepository;
 
 
     @Transactional(readOnly = true)
@@ -27,10 +29,12 @@ public class StockService {
                 .orElseThrow(() -> new StockNotFoundException("존재하지 않는 " + id + " 입니다."));
     }
 
+//    Stock 재고 추가가 되려면
+
     @Transactional
-    public Stock addStock(Long id, int quantity) {
-        Stock stock = stockRepository.findByIdForUpdate(id)
-                .orElseThrow(() -> new SkuNotFoundException("존재하지 않는 " + id + " 입니다"));
+    public Stock addStock(Long skuId, int quantity) {
+        Stock stock = skuRepository.findByIdForUpdate(skuId)
+                .orElseThrow(() -> new SkuNotFoundException("존재하지 않는 " + skuId + " 입니다"));
 
         stock.increaseStockQuantity(quantity);
         return stockRepository.save(stock);
@@ -40,7 +44,7 @@ public class StockService {
     public void decreaseStock(Long id, int quantity) {
         try {
             Stock stock = stockRepository.findByIdForUpdate(id)
-                    .orElseThrow(() -> new StockNotFoundException("존재하지 않는 " + id + " 입니다."));
+                    .orElseThrow(() -> new StockNotFoundException("존재하지 않는 재고 id: " + id + " 입니다."));
             stock.decreaseStockQuantity(quantity);
         } catch (ObjectOptimisticLockingFailureException e) {
             log.error("재고 감소 작업 실패 : id={}, quantity={}", id, quantity, e);
@@ -49,20 +53,5 @@ public class StockService {
     }
 
 
-    @Transactional(readOnly = true)
-    public int checkQuantity(Long id) {
-        Stock stock = stockRepository.findById(id).orElseThrow(
-                () -> new StockNotFoundException("존재하지 않는 " + id + " 입니다."));
-
-        return stock.getQuantity();
-    }
-
-    @Deprecated
-    @Transactional
-    public void increase(Long id, int quantity) {
-        Stock stock = stockRepository.findById(id)
-                .orElseThrow(() -> new StockNotFoundException("존재하지 않는 " + id + " 입니다."));
-        stock.increase(quantity);
-    }
 
 }

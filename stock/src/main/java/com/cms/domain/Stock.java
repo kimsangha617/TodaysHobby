@@ -1,7 +1,7 @@
 package com.cms.domain;
 
 
-import com.cms.exception.stock.NotEnoughStockException;
+import com.cms.exception.stock.StockNotEnoughException;
 import com.cms.type.StockStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,42 +25,34 @@ public class Stock extends BaseEntity {
     @Column(name = "stock_quantity")
     private Integer quantity;
 
-//    @Column(name = "product_id")
-//    private Long productId;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sku_id")
-    private Sku sku;
-
+    @Builder.Default
     @Column(name = "stock_status")
     @Enumerated(EnumType.STRING)
-    private StockStatus stockStatus;
+    private StockStatus stockStatus = StockStatus.IN_STOCK;
+
+    private Long skuId;
 
     @Version
     private Long version;
 
-    public static Stock createStock(Sku sku, int quantity) {
+    public static Stock createStock(Long skuId, int quantity) {
         return Stock.builder()
-                .sku(sku)
+                .skuId(skuId)
                 .quantity(quantity)
                 .stockStatus(StockStatus.IN_STOCK)
                 .build();
     }
 
-    public void increase(int quantity) {
-        this.quantity += quantity;
-    }
-
     public void decreaseStockQuantity(int quantity) {
         if (this.quantity < quantity) {
-            throw new NotEnoughStockException("재고가 부족합니다.");
+            throw new StockNotEnoughException("재고가 부족합니다.");
         }
         this.quantity -= quantity;
     }
 
     private void validateQuantity(int quantity) {
         if (this.quantity < quantity) {
-            throw new NotEnoughStockException("재고가 부족합니다.");
+            throw new StockNotEnoughException("재고가 부족합니다.");
         }
     }
 
