@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ConcurrentModificationException;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,12 +31,12 @@ public class StockService {
 //    Stock 재고 추가가 되려면
 
     @Transactional
-    public Stock addStock(Long skuId, int quantity) {
+    public void addStock(Long skuId, int quantity) {
         Stock stock = skuRepository.findByIdForUpdate(skuId)
                 .orElseThrow(() -> new SkuNotFoundException("존재하지 않는 " + skuId + " 입니다"));
 
         stock.increaseStockQuantity(quantity);
-        return stockRepository.save(stock);
+        stockRepository.save(stock);
     }
 
     @Transactional
