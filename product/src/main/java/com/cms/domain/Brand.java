@@ -30,7 +30,7 @@ public class Brand extends BaseEntity{
     @Column(unique = false)
     private String thumbnailImagePath;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "brand")
-    private Set<Product> productList = new HashSet<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "brand")
+//    private Set<Product> productList = new HashSet<>();
 }

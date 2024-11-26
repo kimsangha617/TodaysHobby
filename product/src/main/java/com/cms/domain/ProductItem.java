@@ -28,15 +28,15 @@ public class ProductItem extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long sellerId;
+//  private Long sellerId;
 
-  @Audited
-  private String name;
+//  @Audited
+//  private String name;
 
   @Audited
   private BigDecimal price;
 
-  private Integer stockQuantity;
+//  private Integer stockQuantity;
 
   @Enumerated(EnumType.STRING)
   private ProductSize size;
@@ -47,18 +47,18 @@ public class ProductItem extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private ProductItemStatus status;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "category_id")
-  private ProductCategory category;
+//  @ManyToOne(fetch = FetchType.LAZY)
+//  @JoinColumn(name = "category_id")
+//  private Category category;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id")
   private Product product;
 
-  @OneToOne
-  @JoinColumn(name = "sku_id")
-  private StockKeepingUnit sku;
+//  @OneToOne
+//  @JoinColumn(name = "sku_id")
+//  private Sku sku;
 
-
+  //TODO Stock 과의 연관관계 맵핑을 해제 하면서 데이터 처리를 어떻게 할것인지
 
 }

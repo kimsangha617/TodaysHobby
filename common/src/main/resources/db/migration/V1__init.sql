@@ -48,7 +48,6 @@ INSERT into product (seller_id, korean_name, english_name, description, brand_id
 create table IF not exists product_item
 (
     product_item_id   bigint auto_increment,
-    seller_id    bigint not null,
     name  varchar(255),
     price DECIMAL(19),
     stock_quantity integer,
@@ -68,7 +67,6 @@ create index idx_product_item_id on product_item (product_item_id);
 
 create table IF not exists product_item_aud (
     product_item_id   bigint auto_increment,
-    seller_id    bigint not null,
     name  varchar(255),
     price DECIMAL(19),
     stock_quantity integer,
@@ -129,6 +127,7 @@ create table IF not exists category
     category_id   bigint auto_increment,
     korean_name varchar(255),
     english_name varchar(255),
+    parent_id bigint,
     depth_level integer,
     created_at DATETIME(6),
     modified_at DATETIME(6),
@@ -142,6 +141,7 @@ create table IF not exists category_aud (
     category_id BIGINT auto_increment,
     korean_name varchar(255),
     english_name varchar(255),
+    parent_id bigint,
     depth_level integer,
     created_at DATETIME(6),
     modified_at DATETIME(6),
@@ -167,7 +167,7 @@ create table if not exists sku
     created_by VARCHAR(255),
     modified_by VARCHAR(255),
     primary key (sku_id)
-    ) engine=InnoDB;
+) engine=InnoDB;
 create index idx_sku_id on sku (sku_id);
 
 create table if not exists sku_aud (
@@ -186,4 +186,34 @@ create table if not exists sku_aud (
     REV INTEGER NOT NULL,
     REVTYPE TINYINT,
     PRIMARY KEY (sku_id, REV)
-    );
+);
+
+create table if not exists stock
+(
+    stock_id   bigint auto_increment,
+    stock_quantity integer,
+    version bigint,
+    sku_id bigint,
+    stock_status varchar(255),
+    created_at DATETIME(6),
+    modified_at DATETIME(6),
+    created_by VARCHAR(255),
+    modified_by VARCHAR(255),
+    primary key (stock_id)
+) engine=InnoDB;
+create index idx_stock_id on sku (stock_id);
+
+create table if not exists stock_aud (
+    stock_id   bigint auto_increment,
+    stock_quantity integer,
+    version bigint,
+    sku_id bigint,
+    stock_status varchar(255),
+    created_at DATETIME(6),
+    modified_at DATETIME(6),
+    created_by VARCHAR(255),
+    modified_by VARCHAR(255),
+    REV INTEGER NOT NULL,
+    REVTYPE TINYINT,
+    PRIMARY KEY (stock_id, REV)
+);

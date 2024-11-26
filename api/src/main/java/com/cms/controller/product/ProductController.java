@@ -1,7 +1,7 @@
 package com.cms.controller.product;
 
+import com.cms.controller.product.dto.ProductSaveRequest;
 import com.cms.domain.Product;
-import com.cms.controller.product.dto.ProductDto;
 import com.cms.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public ResponseEntity createProduct(@Valid @RequestBody ProductDto.ProductSaveRequest requestDto, Errors errors) {
+    public ResponseEntity createProduct(@Valid @RequestBody ProductSaveRequest requestDto, Errors errors) {
         log.info("request: {}", requestDto);
         if (errors.hasErrors()) {
             return badRequest(errors);
@@ -41,7 +41,7 @@ public class ProductController {
 //        없으면 만든다
         // productService.checkProductExists(requestDto.getKoreanName());
 //        Product newProduct = productService.saveProduct(modelMapper.map(requestDto, Product.class), sellerId);
-        Product newProductInstance = ProductDto.ProductSaveRequest.toEntity(requestDto);
+        Product newProductInstance = ProductSaveRequest.toEntity(requestDto);
         Product newProduct = productService.createProduct(newProductInstance);
         return ResponseEntity.status(HttpStatus.OK).body(newProduct.getId());
     }
