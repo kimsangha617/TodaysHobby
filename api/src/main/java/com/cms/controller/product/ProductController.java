@@ -1,15 +1,24 @@
 package com.cms.controller.product;
 
-import com.cms.controller.product.dto.ProductSaveRequest;
+import com.cms.controller.product.dto.ProductApiRequest;
+import com.cms.controller.product.dto.ProductApiResponse;
+import com.cms.type.SearchType;
 import com.cms.domain.Product;
+import com.cms.dtos.ProductResponseDto;
 import com.cms.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -30,7 +39,7 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public ResponseEntity createProduct(@Valid @RequestBody ProductSaveRequest requestDto, Errors errors) {
+    public ResponseEntity createProduct(@Valid @RequestBody ProductApiRequest requestDto, Errors errors) {
         log.info("request: {}", requestDto);
         if (errors.hasErrors()) {
             return badRequest(errors);
@@ -41,16 +50,23 @@ public class ProductController {
 //        없으면 만든다
         // productService.checkProductExists(requestDto.getKoreanName());
 //        Product newProduct = productService.saveProduct(modelMapper.map(requestDto, Product.class), sellerId);
-        Product newProductInstance = ProductSaveRequest.toEntity(requestDto);
+        Product newProductInstance = ProductApiRequest.toEntity(requestDto);
         Product newProduct = productService.createProduct(newProductInstance);
         return ResponseEntity.status(HttpStatus.OK).body(newProduct.getId());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
-    public ResponseEntity getProducts() {
-        log.info("here");
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts());
+    public ResponseEntity<List<ProductApiResponse>> getProductsByCondition(
+            @RequestParam(required = false) SearchType searchType,
+            @RequestParam(required = false) String searchValue,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Page<ProductResponseDto> productResponseDtos = productService.searchProductsByCondition(
+                searchType, searchValue, pageable
+        );
+//        return ResponseEntity.status(HttpStatus.OK).body();
+        return null;
     }
 
     private ResponseEntity badRequest(Errors errors) {

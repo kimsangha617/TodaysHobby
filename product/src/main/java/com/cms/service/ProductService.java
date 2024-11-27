@@ -2,10 +2,14 @@ package com.cms.service;
 
 import com.cms.domain.Product;
 import com.cms.domain.ProductItem;
+import com.cms.dtos.ProductResponseDto;
 import com.cms.exception.product.ProductNotFoundException;
 import com.cms.repository.ProductItemRepository;
 import com.cms.repository.ProductRepository;
+import com.cms.type.SearchType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,8 +115,21 @@ public class ProductService {
 //    return productRepository.findAll(pageable);
 //  }
 
-  public List<Product> getAllProducts() {
-    return null;
+//  public List<Product> getAllProducts(ProductsRequest request) {
+//    return productRepository.findAll();
+//  }
+
+  @Transactional(readOnly = true)
+  public Page<ProductResponseDto> searchProductsByCondition(SearchType searchType, String searchValue, Pageable pageable) {
+    if (searchValue == null || String.valueOf(searchType).isBlank() ) {
+      return productRepository.findAll(pageable).map(ProductResponseDto::from);
+    }
+    return switch (searchType) {
+      case PRODUCT_NAME -> productRepository.findByKoreanNameContaining(searchValue, pageable).map(ProductResponseDto::from);
+      case BRAND -> productRepository.findByBrand_KoreanNameContaining(searchValue, pageable).map(ProductResponseDto::from);
+      case CATEGORY -> productRepository.findByCategory_KoreanNameContaining(searchValue, pageable).map(ProductResponseDto::from);
+      case SELLER_ID -> productRepository.findBySellerId(Long.valueOf(searchValue), pageable).map(ProductResponseDto::from);
+    };
   }
 
 

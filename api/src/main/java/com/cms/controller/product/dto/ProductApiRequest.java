@@ -8,14 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductSaveRequest {
+public class ProductApiRequest {
 
     private Long sellerId;
     private Long categoryId;
@@ -24,14 +23,14 @@ public class ProductSaveRequest {
     private String englishName;
     private String description;
     private String thumbnailImagePath;
-    private List<ProductItemSaveRequest> productItemList;
+    private List<ProductItemApiRequest> productItemList;
 
     public boolean isValid() {
 //      return StringUitils.isNotBlank(name) && StringUitils.isNotBlank(description);
       return false;
     }
 
-    public static Product toEntity(ProductSaveRequest request) {
+    public static Product toEntity(ProductApiRequest request) {
       return Product.builder()
           .sellerId(request.sellerId)
 //          .category(request.categoryId)
@@ -42,5 +41,7 @@ public class ProductSaveRequest {
           .thumbnailImagePath(request.thumbnailImagePath)
           .build();
     }
+
+
 
 }

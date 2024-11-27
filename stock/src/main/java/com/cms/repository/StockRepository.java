@@ -19,9 +19,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     Optional<Stock> findByIdForUpdate(@Param("id") Long id);
 
     @Lock(LockModeType.OPTIMISTIC)
-    @Query("SELECT s FROM Stock s WHERE s.sku.skuName = :skuCode")
-    Optional<Stock> findBySkuCodeWithOptimisticLock(@Param("skuCode") String skuCode);
-
-    List<Stock> findAllByProductNumberIn(List<String> productNumbers);
+    @Query("SELECT s FROM Stock s WHERE s.skuId = :skuId")
+    Optional<Stock> findBySkuCodeWithOptimisticLock(@Param("skuId") String skuId);
 
 }

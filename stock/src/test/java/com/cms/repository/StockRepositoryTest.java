@@ -7,9 +7,12 @@ import com.cms.type.ProductItemStatus;
 import com.cms.type.ProductSize;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,26 +22,26 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ContextConfiguration(classes = StockRepository.class)
+//@ContextConfiguration(classes = StockRepository.class)
 @ActiveProfiles("test")
 @TestPropertySource(properties = "spring.flyway.enabled=false")
 @EnableJpaRepositories(basePackages = "com.cms.repository")
 @EntityScan(basePackages = "com.cms.domain")
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 class StockRepositoryTest {
 
     @Autowired
-    StockRepository stockRepository;
+    private StockRepository stockRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    ProductItemRepository productItemRepository;
+    private ProductItemRepository productItemRepository;
 
     @Autowired
-    SkuRepository skuRepository;
+    private SkuRepository skuRepository;
 
     @DisplayName("skuId로 재고를 조회한다")
     @Test
@@ -68,18 +71,18 @@ class StockRepositoryTest {
         assertThat(foundStock.getQuantity()).isEqualTo(10);
     }
 
-    @DisplayName("상품번호 리스트로 재고를 조회한다")
-    @Test
-    void findAllByProductNumberIn() {
-
-        //given
-//        Stock stock1 = Stock.createStock(1L, 10);
-
-        //when
-
-        //then
-
-    }
+//    @DisplayName("상품번호 리스트로 재고를 조회한다")
+//    @Test
+//    void findAllByProductNumberIn() {
+//
+//        //given
+////        Stock stock1 = Stock.createStock(1L, 10);
+//
+//        //when
+//
+//        //then
+//
+//    }
 
 
 
@@ -93,17 +96,36 @@ class StockRepositoryTest {
                 .build();
     }
 
-    public Product createProduct(Long sellerId, String koreanName,
-                                 String englishName, String description,
-                                 Category category, Brand brand, String imagePath) {
+//    public Product createProduct(Long sellerId, String koreanName,
+//                                 String englishName, String description,
+//                                 Category category, Brand brand, String imagePath) {
+    public Product createProduct() {
         return Product.builder()
-                .sellerId(sellerId)
-                .koreanName(koreanName)
-                .englishName(englishName)
-                .description(description)
-                .category(category)
-                .brand(brand)
-                .thumbnailImagePath(imagePath)
+                .sellerId(1L)
+                .koreanName("테스트상품")
+                .englishName("test product")
+                .description("this is description")
+                .category(createCategory())
+                .brand(createBrand())
+                .thumbnailImagePath("imagePath")
+                .build();
+    }
+
+    private Brand createBrand() {
+        return Brand.builder()
+                .id(1L)
+                .koreanName("나이키")
+                .englishName("NIKE")
+                .thumbnailImagePath("imagePath")
+                .build();
+    }
+
+    private Category createCategory() {
+        return Category.builder()
+                .id(1L)
+                .depthLevel(1)
+                .koreanName("의류")
+                .englishName("clothes")
                 .build();
     }
 

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ProductItemSaveRequest {
+public class ProductItemApiRequest {
     private String name;
     private BigDecimal price;
     private Integer stockQuantity;

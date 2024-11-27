@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ProductInfoResponse {
+public class ProductApiResponse {
       private Long id;
       private Long sellerId;
       private Long categoryId;
@@ -21,8 +21,8 @@ public class ProductInfoResponse {
       private String thumbnailImagePath;
 
        //TODO category, brand 에 대해 어떻게 처리할건지 고민 후 개발
-      public static ProductInfoResponse of(Product product) {
-        return ProductInfoResponse.builder()
+      public static ProductApiResponse of(Product product) {
+        return ProductApiResponse.builder()
                 .id(product.getId())
                 .sellerId(product.getSellerId())
 //                .categoryId(product.getCategoryId())
@@ -32,5 +32,9 @@ public class ProductInfoResponse {
                 .description(product.getDescription())
                 .thumbnailImagePath(product.getThumbnailImagePath())
                 .build();
+      }
+
+      public static ProductApiResponse from() {
+            return null;
       }
 }

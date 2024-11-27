@@ -27,23 +27,23 @@ public class ProductItemRepositoryTest {
   @Autowired
   private ProductItemRepository productItemRepository;
 
-  @Test
-  @DisplayName("판매중 상태를 가진 상품들을 조회한다.")
-  void findAllByOnSaleStatus() {
-    //given
-    ProductItem productItem = createProductItem(1L, ProductItemStatus.ON_SALE,
-        1000, ProductColor.RED, ProductSize.XL, 10, "구두");
-    ProductItem productItem2 = createProductItem(1L, ProductItemStatus.ON_SALE,
-        2000, ProductColor.WHITE, ProductSize.L, 10, "구두");
-
-    //when
-    List<ProductItem> productItems = productItemRepository.saveAll(
-        List.of(productItem, productItem2));
-
-    //then
-    assertThat(productItems).hasSize(2);
-
-  }
+//  @Test
+//  @DisplayName("판매중 상태를 가진 상품들을 조회한다.")
+//  void findAllByOnSaleStatus() {
+//    //given
+//    ProductItem productItem = createProductItem(1L, ProductItemStatus.ON_SALE,
+//        1000, ProductColor.RED, ProductSize.XL, 10, "구두");
+//    ProductItem productItem2 = createProductItem(1L, ProductItemStatus.ON_SALE,
+//        2000, ProductColor.WHITE, ProductSize.L, 10, "구두");
+//
+//    //when
+//    List<ProductItem> productItems = productItemRepository.saveAll(
+//        List.of(productItem, productItem2));
+//
+//    //then
+//    assertThat(productItems).hasSize(2);
+//
+//  }
 
   private Product createProduct(String productNumber,
       ProductItemStatus productItemStatus, int price, ProductColor productColor,

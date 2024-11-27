@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ProductItemInfoResponse {
+public class ProductItemApiResponse {
     private Long productId;
     private String name;
     private BigDecimal price;
@@ -23,8 +23,8 @@ public class ProductItemInfoResponse {
     private Category category;
     private ProductItemStatus productItemStatus;
 
-    public static ProductItemInfoResponse of(ProductItem savedItem) {
-        return ProductItemInfoResponse.builder()
+    public static ProductItemApiResponse of(ProductItem savedItem) {
+        return ProductItemApiResponse.builder()
                 .productId(savedItem.getId())
                 .price(savedItem.getPrice())
                 .productSize(savedItem.getSize())
