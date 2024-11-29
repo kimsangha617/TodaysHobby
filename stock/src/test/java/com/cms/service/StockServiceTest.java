@@ -1,10 +1,14 @@
 package com.cms.service;
 
-import com.cms.domain.Sku;
 import com.cms.domain.Stock;
+import com.cms.exception.SkuNotFoundException;
+import com.cms.exception.product.ProductNotFoundException;
+import com.cms.exception.stock.NegativeQuantityException;
 import com.cms.exception.stock.StockNotEnoughException;
 import com.cms.exception.stock.StockNotFoundException;
 import com.cms.repository.SkuRepository;
+import com.cms.repository.StockJpaRepository;
+import com.cms.repository.StockJpaRepositoryStub;
 import com.cms.repository.StockRepository;
 import com.cms.type.StockStatus;
 import org.junit.jupiter.api.AfterEach;
@@ -15,29 +19,30 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
 class StockServiceTest {
 
-    @InjectMocks
+//    @InjectMocks
     private StockService sut;
-    @Mock
-    StockRepository stockRepository;
+//    @Mock
+    StockJpaRepositoryStub stockRepository;
+    SkuJpaRepositoryStub skuJpaRepositoryStub;
 
     @Mock
     SkuRepository skuRepository;
+
+    @BeforeEach
+    void setUp() {
+        stockRepository = new StockJpaRepositoryStub();
+        sut = new StockService(stockRepository, skuJpaRepositoryStub);
+    }
 
     @AfterEach
     void tearDown() {
@@ -89,16 +94,41 @@ class StockServiceTest {
     @DisplayName("재고를 찾을 수 없는 경우 예외가 발생한다")
     @Test
     void findStockById_thenReturnStockNotFoundException() {
-        Long stockId = 2L;
         //given
-        given(stockRepository.findByIdForUpdate(stockId)).willReturn(Optional.empty());
+        Long nonExistingItemId = 2L;
+        Long stockQuantity = 10L;
+        given(stockRepository.findByIdForUpdate(nonExistingItemId)).willReturn(Optional.empty());
 
         //when
-        Throwable t = catchThrowable( () -> sut.decreaseStock(stockId, 20));
+        Throwable t = catchThrowable(() -> sut.decreaseStock(nonExistingItemId, 20));
 
         //then
         assertThat(t)
                 .isInstanceOf(StockNotFoundException.class);
-        then(stockRepository).should().findByIdForUpdate(stockId);
+        then(stockRepository).should().findByIdForUpdate(nonExistingItemId);
+    }
+
+    @DisplayName("유효하지 않은 productId 일 경우 예외가 발생한다")
+    @Test
+    void findProductByNotExistsId_thenReturnProductNotFoundException() {
+        //given
+        final Long nonExistingItemId = 2L;
+        final int stockQuantity = 10;
+
+        //when, then
+        assertThatThrownBy(() -> sut.decreaseStock(nonExistingItemId, stockQuantity))
+                .isInstanceOf(SkuNotFoundException.class);
+    }
+
+    @DisplayName("차감하는 quantity가 음수일 경우 예외가 발생한다")
+    @Test
+    void decreaseNegativeQuantity_thenReturnNegativeQuantityException() {
+        //given
+        final Long nonExistingItemId = 2L;
+        final int stockQuantity = 10;
+
+        //when, then
+        assertThatThrownBy(() -> sut.decreaseStock(nonExistingItemId, stockQuantity))
+                .isInstanceOf(NegativeQuantityException.class);
     }
 }

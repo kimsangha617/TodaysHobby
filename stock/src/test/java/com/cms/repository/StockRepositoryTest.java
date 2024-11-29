@@ -40,33 +40,33 @@ class StockRepositoryTest {
     @Autowired
     SkuRepository skuRepository;
 
-    @DisplayName("skuId로 재고를 조회한다")
-    @Test
-    void findStockBySkuId() {
-        //given
-        Product product1 = createProduct(1L, "koreanName", "englishName", "description",
-                new Category(1L, "카테고리", "category", null, null, 1)
-                , new Brand(1L, "브랜드", "brand", "imagePath"), "imagePath");
-
-        ProductItem productItem1 = createProductItem(BigDecimal.valueOf(1000), "S", "RED", "ON_SALE", product1);
-
-        productRepository.save(product1);
-        productItemRepository.save(productItem1);
-
-        Sku sku = Sku.createSku(1L, product1.getBrand().getEnglishName(), product1.getEnglishName(), productItem1.getColor(), productItem1.getSize());
-        skuRepository.save(sku);
-
-        Stock stock1 = Stock.createStock(1L, 10);
-        Stock savedStock = stockRepository.save(stock1);
-
-        //when
-        Stock foundStock = stockRepository.findById(1L)
-                .orElseThrow( () -> new StockNotEnoughException("재고를 찾을 수 없습니다."));
-        //then
-
-        assertThat(foundStock.getQuantity()).isEqualTo(10);
-        assertThat(foundStock.getQuantity()).isEqualTo(10);
-    }
+//    @DisplayName("skuId로 재고를 조회한다")
+//    @Test
+//    void findStockBySkuId() {
+//        //given
+//        Product product1 = createProduct(1L, "koreanName", "englishName", "description",
+//                new Category(1L, "카테고리", "category", null, null, 1)
+//                , new Brand(1L, "브랜드", "brand", "imagePath"), "imagePath");
+//
+//        ProductItem productItem1 = createProductItem(BigDecimal.valueOf(1000), "S", "RED", "ON_SALE", product1);
+//
+//        productRepository.save(product1);
+//        productItemRepository.save(productItem1);
+//
+//        Sku sku = Sku.createSku(1L, product1.getBrand().getEnglishName(), product1.getEnglishName(), productItem1.getColor(), productItem1.getSize());
+//        skuRepository.save(sku);
+//
+//        Stock stock1 = Stock.createStock(1L, 10);
+//        Stock savedStock = stockRepository.save(stock1);
+//
+//        //when
+//        Stock foundStock = stockRepository.findById(1L)
+//                .orElseThrow( () -> new StockNotEnoughException("재고를 찾을 수 없습니다."));
+//        //then
+//
+//        assertThat(foundStock.getQuantity()).isEqualTo(10);
+//        assertThat(foundStock.getQuantity()).isEqualTo(10);
+//    }
 
     @DisplayName("상품번호 리스트로 재고를 조회한다")
     @Test

@@ -1,6 +1,7 @@
 package com.cms.domain;
 
 
+import com.cms.exception.stock.NegativeQuantityException;
 import com.cms.exception.stock.StockNotEnoughException;
 import com.cms.type.StockStatus;
 import jakarta.persistence.*;
@@ -44,6 +45,10 @@ public class Stock extends BaseEntity {
     }
 
     public void decreaseStockQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new NegativeQuantityException("재고 차감 quantity는 음수가 될 수 없습니다");
+        }
+
         if (this.quantity < quantity) {
             throw new StockNotEnoughException("재고가 부족합니다.");
         }
