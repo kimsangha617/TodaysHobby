@@ -1,7 +1,8 @@
 package com.cms.repository;
 
 import com.cms.domain.*;
-import com.cms.exception.stock.StockNotEnoughException;
+import com.cms.domain.sku.infrastructure.SkuRepository;
+import com.cms.domain.stock.infrastructure.StockRepository;
 import com.cms.type.ProductColor;
 import com.cms.type.ProductItemStatus;
 import com.cms.type.ProductSize;

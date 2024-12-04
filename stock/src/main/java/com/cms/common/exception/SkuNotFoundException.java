@@ -1,4 +1,4 @@
-package com.cms.exception;
+package com.cms.common.exception;
 
 public class SkuNotFoundException extends RuntimeException {
 

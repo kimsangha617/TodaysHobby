@@ -188,7 +188,7 @@ create table if not exists sku_aud (
     PRIMARY KEY (sku_id, REV)
 );
 
-create table if not exists stock
+create table if not exists stockEntity
 (
     stock_id   bigint auto_increment,
     stock_quantity integer,

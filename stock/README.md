@@ -16,9 +16,9 @@
     ( Issue 발생 ) 잔여 재고는 50개인데 100개가 재고차감을 하는 상황이 발생.
 
     Controller -> Service -> DB
-    Stock stock = findStockBySkuId(skuId);
-     if(stock.qty > 0){
-      stock.decrease()
+    Stock stockEntity = findStockBySkuId(skuId);
+     if(stockEntity.qty > 0){
+      stockEntity.decrease()
      }
 
     Example ( 재고가 3개 남은 상황에서 )

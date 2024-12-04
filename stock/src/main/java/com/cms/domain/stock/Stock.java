@@ -1,43 +1,24 @@
-package com.cms.domain;
+package com.cms.domain.stock;
 
-
+import com.cms.domain.stock.type.StockStatus;
 import com.cms.exception.stock.NegativeQuantityException;
 import com.cms.exception.stock.StockNotEnoughException;
-import com.cms.type.StockStatus;
-import jakarta.persistence.*;
+import com.cms.infrastructure.stock.entity.StockEntity;
 import lombok.*;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Audited
-@AuditOverride(forClass = BaseEntity.class)
-@Entity
-public class Stock extends BaseEntity {
-
-    @Id
-    @Column(name = "stock_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "stock_quantity")
+@Getter
+public class Stock {
+    private Long stockId;
     private Integer quantity;
-
-    @Builder.Default
-    @Column(name = "stock_status")
-    @Enumerated(EnumType.STRING)
-    private StockStatus stockStatus = StockStatus.IN_STOCK;
-
+    private StockStatus stockStatus;
     private Long skuId;
-
-    @Version
     private Long version;
 
-    public static Stock createStock(Long skuId, int quantity) {
-        return Stock.builder()
+    public static StockEntity createStock(Long skuId, int quantity) {
+        return StockEntity.builder()
                 .skuId(skuId)
                 .quantity(quantity)
                 .stockStatus(StockStatus.IN_STOCK)
@@ -49,9 +30,8 @@ public class Stock extends BaseEntity {
             throw new NegativeQuantityException("재고 차감 quantity는 음수가 될 수 없습니다");
         }
 
-        if (this.quantity < quantity) {
-            throw new StockNotEnoughException("재고가 부족합니다.");
-        }
+        validateQuantity(quantity);
+
         this.quantity -= quantity;
     }
 
@@ -64,4 +44,5 @@ public class Stock extends BaseEntity {
     public void increaseStockQuantity(int quantity) {
         this.quantity += quantity;
     }
+
 }

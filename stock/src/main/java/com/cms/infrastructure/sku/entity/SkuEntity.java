@@ -1,5 +1,7 @@
-package com.cms.domain;
+package com.cms.infrastructure.sku.entity;
 
+import com.cms.domain.BaseEntity;
+import com.cms.infrastructure.stock.entity.StockEntity;
 import com.cms.type.ProductColor;
 import com.cms.type.ProductSize;
 import jakarta.persistence.*;
@@ -15,7 +17,7 @@ import org.hibernate.envers.Audited;
 @Audited
 @AuditOverride(forClass = BaseEntity.class)
 @Entity
-public class Sku extends BaseEntity {
+public class SkuEntity extends BaseEntity {
 
     @Id
     @Column(name = "sku_id")
@@ -28,11 +30,11 @@ public class Sku extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "stock_id")
-    private Stock stock;
+    private StockEntity stockEntity;
 
 
-    public static Sku createSku(Long productId, String brandEngName, String productEngName, ProductColor color, ProductSize size ) {
-        return Sku.builder()
+    public static SkuEntity createSku(Long productId, String brandEngName, String productEngName, ProductColor color, ProductSize size ) {
+        return SkuEntity.builder()
                 .productItemId(productId)
                 .skuName(generateSkuCode(brandEngName, productEngName, color, size))
                 .build();
