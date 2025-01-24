@@ -1,10 +1,10 @@
 package com.cms.controller.product.dto;
 
-import com.cms.domain.Category;
-import com.cms.domain.ProductItem;
-import com.cms.type.ProductColor;
-import com.cms.type.ProductItemStatus;
-import com.cms.type.ProductSize;
+import com.cms.domain.category.Category;
+import com.cms.domain.productItem.ProductItem;
+import com.cms.domain.product.type.ProductColor;
+import com.cms.domain.productItem.type.ProductItemStatus;
+import com.cms.domain.product.type.ProductSize;
 import lombok.*;
 
 import java.math.BigDecimal;

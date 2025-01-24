@@ -1,20 +1,18 @@
 package com.cms.repository;
 
-import com.cms.domain.Product;
-import com.cms.domain.ProductItem;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.cms.domain.product.Product;
+import com.cms.domain.productItem.ProductItem;
+import com.cms.domain.productItem.ProductItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import com.cms.type.ProductColor;
-import com.cms.type.ProductItemStatus;
-import com.cms.type.ProductSize;
+import com.cms.domain.product.type.ProductColor;
+import com.cms.domain.productItem.type.ProductItemStatus;
+import com.cms.domain.product.type.ProductSize;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

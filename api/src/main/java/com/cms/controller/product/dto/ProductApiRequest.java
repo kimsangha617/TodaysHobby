@@ -1,7 +1,7 @@
 package com.cms.controller.product.dto;
 
 
-import com.cms.domain.Product;
+import com.cms.domain.product.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

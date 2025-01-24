@@ -2,8 +2,8 @@ package com.cms.controller.brand;
 
 import com.cms.controller.brand.dto.BrandInfoResponse;
 import com.cms.controller.brand.dto.BrandSaveRequest;
-import com.cms.domain.Brand;
-import com.cms.service.BrandService;
+import com.cms.domain.brand.Brand;
+import com.cms.domain.brand.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
 package com.cms.domain;
 
-import com.cms.type.ProductColor;
-import com.cms.type.ProductSize;
+import com.cms.domain.product.type.ProductColor;
+import com.cms.domain.product.type.ProductSize;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;

@@ -2,10 +2,10 @@ package com.cms.controller.product;
 
 import com.cms.controller.product.dto.ProductApiRequest;
 import com.cms.controller.product.dto.ProductApiResponse;
-import com.cms.type.SearchType;
-import com.cms.domain.Product;
-import com.cms.dtos.ProductResponseDto;
-import com.cms.service.ProductService;
+import com.cms.common.type.SearchType;
+import com.cms.domain.product.Product;
+import com.cms.interfaces.dtos.ProductResponseDto;
+import com.cms.domain.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

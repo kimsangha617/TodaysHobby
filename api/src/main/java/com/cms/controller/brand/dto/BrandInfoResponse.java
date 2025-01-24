@@ -1,6 +1,6 @@
 package com.cms.controller.brand.dto;
 
-import com.cms.domain.Brand;
+import com.cms.domain.brand.Brand;
 import lombok.*;
 
 @Getter
